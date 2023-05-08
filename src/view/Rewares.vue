@@ -9,36 +9,65 @@
                     <img src="" alt="">
                 </div>
                 <span>0x958825f16227a1ff652Dc6AC147071EA7024E424</span>
-                <img @click="copyFun(address)" src="../assets/Home/copy.png" alt="">
+                <img @click="copyFun(address)" class="copy" src="../assets/Home/copy.png" alt="">
+                <img src="../assets/Home/SVIP.png" class="svip" alt="">
             </div>
             <div class="link"> <span>http://sadfs.dadsf.com/sdadsf <img src="../assets/Home/copy.png"  @click="copyFun(InviteUrl)" alt=""></span> <div class="Team flexCenter" @click="goPath('/Team')">Team</div></div>
         </div>
         <div class="balance">
-            <div class="balanceItem">
-                <div class="label">CRB</div>
-                <div class="Num">2000</div>
+            <div class="balanceRow">
+                <div class="balanceNum">
+                    <span class="tokenName">A币</span>
+                    <span class="tokenNum">200000</span>
+                </div>
+                <div class="Withdraw flexCenter">Withdraw</div>
             </div>
-            <div class="balanceItem">
-                <div class="label">CZZ</div>
-                <div class="Num">2000</div>
+            <div class="history">
+                <div class="historyItem">
+                    <span class="Label">Reward Total</span>
+                    <span class="number">22222222</span>
+                </div>
+                <div class="historyItem">
+                    <span class="Label">Stake Total</span>
+                    <span class="number">22222222</span>
+                </div>
             </div>
-            <div class="Withdraw flexCenter">Withdraw</div>
         </div>
-        <div class="HistoryLabel">
-            <div class="topbar">
-                <span class="label">History</span>
-                <span class="more">more></span>
-            </div>
+    </div>
+    <div class="LabelRow">
+        <span class="labelName">A币 Reward</span>
+        <span class="more">more></span>
+    </div>
+    <div class="RewardBox">
+        <div class="RewardRow">
+            <span class="num">+122</span>
+            <span class="time">2022/02/22 12:22:33</span>
         </div>
-        <div class="recordItem">
-            <div>
-                <div>STAKE</div>
-                <div>CRB</div>
-            </div>
-            <div class="textRight">
-                <div>+1221 CRB</div>
-                <div>2023.02.22 12:11:11</div>
-            </div>
+        <div class="RewardRow">
+            <span class="num">+122</span>
+            <span class="time">2022/02/22 12:22:33</span>
+        </div>
+        <div class="RewardRow">
+            <span class="num">+122</span>
+            <span class="time">2022/02/22 12:22:33</span>
+        </div>
+    </div>
+    <div class="LabelRow">
+        <span class="labelName">SVIP Reward</span>
+        <span class="more">more></span>
+    </div>
+    <div class="RewardBox">
+        <div class="RewardRow">
+            <span class="num">+122</span>
+            <span class="time">2022/02/22 12:22:33</span>
+        </div>
+        <div class="RewardRow">
+            <span class="num">+122</span>
+            <span class="time">2022/02/22 12:22:33</span>
+        </div>
+        <div class="RewardRow">
+            <span class="num">+122</span>
+            <span class="time">2022/02/22 12:22:33</span>
         </div>
     </div>
   </div>

@@ -1,6 +1,5 @@
 .Rewares,.History{
     background: #F5FBFF;
-    height: 100vh;
     padding-top: 10rem;
     display: flex;
     flex-direction: column;
@@ -39,8 +38,8 @@
         flex: 1;
         width: 37.5rem;
         // background: ;
-        border-radius: 3.25rem 3.25rem 0 0;
-        overflow: hidden;
+        border-radius: 3.25rem;
+        background: url('../Home/REWARDSBg.png') no-repeat center 0 / 100% auto;
         @media (max-width:1024px) {
             width: 45rem;
         }
@@ -50,7 +49,7 @@
         .InfoRow{
             height: 10rem;
             width: 100%;
-            background: url('../Home/REWARDSBg.png');
+            
             padding: 0 2.5rem;
             box-sizing: border-box;
             display: flex;
@@ -78,6 +77,9 @@
                     border-radius: 50%;
                     background: #2446E1;
                     flex-shrink: 0;
+                }
+                .svip{
+                    width: 40px;
                 }
                 span{margin-left: 24px;}
             }
@@ -112,35 +114,45 @@
             }
         }
         .balance{
-            margin: 3rem 3rem;
-            @media (max-width:425px) {
-                margin: 6rem 6rem;
-            }
+            height: 239px;
+            border-radius: 50px;
+            background: #FFFFFF;
+            padding: 33px 43px;
             display: flex;
-            .balanceItem{
-                flex: 1;
-                .label{
-                    color: #FFFFFF;
-                    font-size: 0.7rem;
-                    line-height: 1;
-                    @media (max-width:1024px) {
-                        font-size: 1.5rem;
+            flex-direction: column;
+            justify-content: space-between;
+            box-sizing: border-box;
+            .balanceRow{
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                width: 100%;
+                .balanceNum{
+                    span{
+                        color: #000;
+                        font-size: 20px;
                     }
-                    @media (max-width:425px) {
-                        font-size: 3rem;
+                    .tokenNum{
+                        margin-left: 14px;
                     }
                 }
-                .Num{
-                    font-weight: 500;
-                    color: #FFFFFF;
-                    font-size: 1.5rem;
-                    line-height: 1;
-                    margin-top: 1rem;
-                    @media (max-width:1024px) {
-                        font-size: 2rem;
+            }
+            .history{
+                display: flex;
+                justify-content: space-around;
+                .historyItem{
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    .Label{
+                        font-weight: 400;
+                        color: #000000;
+                        font-size: 14px;
                     }
-                    @media (max-width:425px) {
-                        font-size: 4rem;
+                    .number{
+                        font-weight: 500;
+                        color: #000000;
+                        font-size: 30px;
                     }
                 }
             }
@@ -158,56 +170,48 @@
                 }
             }
         }
-        .HistoryLabel{
-            margin: 0 1.5rem;
-            @media (max-width:425px) {
-                margin: 0 4rem;
-            }
-            .topbar{
-                display: flex;
-                align-items: center;
-                justify-content:space-between;
-               
-                .label{
-                    font-weight: 500;
-                    color: #FFFFFF;
-                    font-size: 1.5rem;
-                }
-                .more{
-                    color: #FFFFFF;
-                    font-size: 1rem;
-                }
-                @media (max-width:1024px) {
-                    .label{
-                        font-weight: 500;
-                        color: #FFFFFF;
-                        font-size: 2rem;
-                    }
-                    .more{
-                        color: #FFFFFF;
-                        font-size: 1.5rem;
-                    }
-                }
-            }
-
+    }
+    .LabelRow{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 37.5rem;
+        margin: 32px 0 16px;
+        .labelName{
+            font-weight: 500;
+            color: #262626;
+            font-size: 30px;
         }
-        .recordItem{
-            display:flex;
-            justify-content:space-between;
-            margin: 0.8rem 1.5rem;
-            @media (max-width:425px) {
-                margin: 1.6rem 3rem;
+        .more{
+            font-weight: 400;
+            color: #3D3D3D;
+            font-size: 16px;
+        }
+    }
+    .RewardBox{
+        width: 37.5rem;
+        height: 200px;
+        background: #FFFFFF;
+        box-shadow: 0px 3px 20px 0px rgba(0,0,0,0.1);
+        border-radius: 50px;
+        padding: 60px 50px;
+        box-sizing: border-box;
+        .RewardRow:nth-last-child(1){
+            margin-bottom: 0;
+        }
+        .RewardRow{
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 17px;
+
+            .num{
+                color: #49DE3D;
+                font-size: 14px;
             }
-            >div{
-                div{
-                    font-size: 12px;
-                    font-weight: 400;
-                    color: #FFFFFF;
-                    margin: 5px 0;
-                }
-            }
-            .textRight{
-                text-align: right;
+            .time{
+                font-size: 14px;
+                font-weight: 400;
+                color: #262626;
             }
         }
     }

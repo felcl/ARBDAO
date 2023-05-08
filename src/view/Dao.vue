@@ -215,6 +215,7 @@
       height: 56px;
       border-radius: 12px;
       margin-top: 60px;
+      color: #fff;
     }
   }
 }
