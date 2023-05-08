@@ -16,46 +16,43 @@
       </div>
       <div class="Increase">
         <div class="Left">
-            <div class="Icon">
-                <img src="" alt="">
+          <div class="Icon">
+            <img src="" alt="" />
+          </div>
+          <div>
+            <div class="name">OP</div>
+            <div class="priceInfo">
+              <span class="price">$ 2.1856</span>
+              <span class="pro">4.7%</span>
             </div>
-            <div>
-                <div class="name">OP</div>
-                <div class="priceInfo">
-                    <span class="price">$ 2.1856</span>
-                    <span class="pro">4.7%</span>
-                </div>
-            </div>
+          </div>
         </div>
         <div class="Right">
-            <span>0.00</span>
-            <span>$ 0.00</span>
+          <span>0.00</span>
+          <span>$ 0.00</span>
         </div>
       </div>
-      <div class=""></div>
-      <div class="StakeInfo subscribe">
-        <div class="InfoRow">
-          <span>Stake Date</span>
-          <span>2023-04-22 00:17</span>
+      <div class="subscribe">
+        <div class="subscribeTitle">A币申购</div>
+        <div class="subscribeLabel">申购类型</div>
+        <div class="subscribeRow">
+          <div class="item flexCenter Active">100A</div>
+          <div class="item flexCenter">500A</div>
+          <div class="item flexCenter">1000A</div>
         </div>
-        <div class="InfoRow">
-          <span>Value Date</span>
-          <span>2023-04-22 08:00</span>
-        </div>
-        <div class="InfoRow">
-          <span>Interest Period</span>
-          <span>6 Days</span>
-        </div>
-        <div class="InfoRow">
-          <span>Est. APR</span>
-          <span>2.7%</span>
-        </div>
-        <div class="InfoRow">
-          <span>Estimated Interests</span>
-          <span>- -</span>
-        </div>
+        <div class="Submit flexCenter">Submit</div>
       </div>
     </div>
+    <div class="subscribe separate">
+        <div class="subscribeTitle">A币申购</div>
+        <div class="subscribeLabel">申购类型</div>
+        <div class="subscribeRow">
+          <div class="item flexCenter Active">100A</div>
+          <div class="item flexCenter">500A</div>
+          <div class="item flexCenter">1000A</div>
+        </div>
+        <div class="Submit flexCenter">Submit</div>
+      </div>
   </div>
 </template>
 
@@ -92,7 +89,7 @@
     }
   }
   .StakeItem {
-    background: url('../assets/Home/DaoBg.png') no-repeat center 0 / 100%;
+    background: url("../assets/Home/DaoBg.png") no-repeat center 0 / 100%;
     .totalNetwork {
       display: flex;
       justify-content: space-between;
@@ -105,10 +102,10 @@
           font-size: 20px;
           margin-bottom: 36px;
         }
-        .number{
-            font-size: 40px;
-            font-weight: 600;
-            color: #FFFFFF;
+        .number {
+          font-size: 40px;
+          font-weight: 600;
+          color: #ffffff;
         }
       }
       .separate {
@@ -131,60 +128,99 @@
     @media (max-width: 375px) {
       width: 80rem;
     }
-    .Increase{
-        margin: 0 67px 124px;
+    .Increase {
+      margin: 0 67px 124px;
+      display: flex;
+      justify-content: space-between;
+      .Left {
         display: flex;
-        justify-content:space-between;
-        .Left{
-            display: flex;
-            .name{
-                font-weight: 600;
-                color: #FFFFFF;
-                font-size: 20px;
-            }
-            .price{
-                font-weight: 400;
-                color: #FFFFFF;
-                font-size: 20px;
-            }
-            .pro{
-                color: #49DE3D;
-                font-weight: 600;
-                font-size: 20px;
-                margin-left: 25px;
-            }
+        .name {
+          font-weight: 600;
+          color: #ffffff;
+          font-size: 20px;
         }
-        .Right{
-            font-weight: 600;
-            color: #FFFFFF;
-            font-size: 20px;
-            display: flex;
-            flex-direction: column;
+        .price {
+          font-weight: 400;
+          color: #ffffff;
+          font-size: 20px;
         }
-        .Icon{
-            width: 52px;
-            height: 52px;
-            margin-right: 28px;
-            border-radius:50%;
-            background: #FF0000;
+        .pro {
+          color: #49de3d;
+          font-weight: 600;
+          font-size: 20px;
+          margin-left: 25px;
         }
-    }
-    .subscribe {
-      width: 100%;
-        background: #FFFFFF;
-      border-radius: 2.5rem;
-      padding: 1.9rem 4rem;
-      box-sizing: border-box;
-      .InfoRow {
+      }
+      .Right {
+        font-weight: 600;
+        color: #ffffff;
+        font-size: 20px;
         display: flex;
-        justify-content: space-between;
-        margin-bottom: 0.6rem;
-        span {
-          color: rgba(255, 255, 255, 0.617691);
-          font-size: 0.7rem;
-        }
+        flex-direction: column;
+      }
+      .Icon {
+        width: 52px;
+        height: 52px;
+        margin-right: 28px;
+        border-radius: 50%;
+        background: #ff0000;
       }
     }
   }
+  .separate{
+    width: 37.5rem;
+    margin: 30px auto 0;
+  }
+  .subscribe {
+    padding: 70px 80px 50px;
+    box-sizing: border-box;
+    border-radius: 50px;
+    background: #ffffff;
+    box-shadow: 0px 3px 20px 0px rgba(0,0,0,0.1);
+    .subscribeTitle {
+      font-weight: 500;
+      color: #262626;
+      font-size: 30px;
+      text-align: center;
+    }
+    .subscribeLabel {
+      font-weight: 400;
+      color: #3d3d3d;
+      font-size: 14px;
+      margin-top: 36px;
+    }
+    .subscribeRow {
+      margin-top: 15px;
+      display: flex;
+      justify-content: space-between;
+      .item {
+        width: 179px;
+        height: 56px;
+        background: #fff;
+        border: 1px solid #00a0e9;
+        border-radius: 12px;
+        font-weight: 400;
+
+        color: #00a0e9;
+        font-size: 20px;
+      }
+      .Active {
+        background: linear-gradient(360deg, #299fef 0%, #69c0fa 100%);
+        border: none;
+        color: #ffffff;
+      }
+    }
+    .Submit {
+      background: linear-gradient(360deg, #299fef 0%, #69c0fa 100%);
+      height: 56px;
+      border-radius: 12px;
+      margin-top: 60px;
+    }
+  }
+}
+.flexCenter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 </style>
