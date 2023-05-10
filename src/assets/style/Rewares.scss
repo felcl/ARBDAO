@@ -5,6 +5,7 @@
     flex-direction: column;
     box-sizing: border-box;
     align-items: center;
+    min-height: 100vh;
     @media (max-width:767px) {
         padding-top: 20rem;
     }
@@ -19,6 +20,27 @@
         }
         @media (max-width:425px) {
             font-size: 4rem;
+        }
+    }
+    .Tabs{
+        width: 324px;
+        height: 64px;
+        background: #D5E0E8; 
+        border-radius: 32px;
+        box-sizing: border-box;
+        padding: 5px 7px;
+        margin-bottom: 30px;
+        display: flex;
+        justify-content: space-between;
+        .tabItem{
+            width: 118px;
+            height: 54px;
+            color: rgba(61,61,61,0.8);
+            border-radius: 32px;
+        }
+        .active{
+            background: #00A0E9;
+            color: #fff;
         }
     }
     .StakeSubTitle{
@@ -101,7 +123,7 @@
                     background: #FFFFFF;
                     border-radius: 6px;
                     border: 1px solid #FFFFFF;
-                    color: #B220FF;
+                    color: #00A0E9;
                     @media (max-width:1024px) {
                         width: 6.75rem;
                         height: 2.5rem;
@@ -162,7 +184,7 @@
                 width: 8.9rem;
                 color: #fff;
                 height: 2.8rem;
-                background: linear-gradient(90deg, #536DFE 0%, #B41FFF 100%);
+                background: linear-gradient(360deg, #299FEF 0%, #69C0FA 100%);
                 border-radius: 0.6rem;
                 @media (max-width:425px) {
                     width: 15rem;
@@ -190,7 +212,6 @@
     }
     .RewardBox{
         width: 37.5rem;
-        height: 200px;
         background: #FFFFFF;
         box-shadow: 0px 3px 20px 0px rgba(0,0,0,0.1);
         border-radius: 50px;
@@ -199,14 +220,46 @@
         .RewardRow:nth-last-child(1){
             margin-bottom: 0;
         }
+        .total{
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            .label{
+                font-size: 20px;
+                font-weight: 400;
+                color: #3D3D3D;
+            }
+            .totalNum{
+                font-weight: 500;
+                font-size: 20px;
+                color: #3D3D3D;
+            }
+        }
         .RewardRow{
             display: flex;
             justify-content: space-between;
             margin-bottom: 17px;
-
+            align-items: center;
             .num{
                 color: #49DE3D;
                 font-size: 14px;
+            }
+            .address{
+                color: #424242;
+                font-size: 16px;
+            }
+            .timeAndNum{
+                display: flex;
+                flex-direction: column;
+                align-items: flex-end;
+                .RecordNum{
+                    color: #424242;
+                    font-size: 14px;
+                }
+                .RecordTime{
+                    font-size: 14px;
+                    color: #262626;
+                }
             }
             .time{
                 font-size: 14px;

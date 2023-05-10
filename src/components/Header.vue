@@ -6,9 +6,15 @@ import {connect} from '../web3'
 import {useRouter,useRoute} from 'vue-router'
 import HomeActiveIcon from '../assets/Home/HomeActiveIcon.png'
 import HomeIcon from '../assets/Home/HomeIcon.png'
+import blackHomeIcon from '../assets/Home/blackHomeIcon.png'
 import StakeActiveIcon from '../assets/Home/StakeActiveIcon.png'
 import StakeIcon from '../assets/Home/StakeIcon.png'
-import Rewards from '../assets/Home/Rewards.png'
+import blackStakeIcon from '../assets/Home/blackStakeIcon.png'
+import RewardsIcon from '../assets/Home/RewardsIcon.png'
+import blackRewardsIcon from '../assets/Home/blackRewardsIcon.png'
+import RewardsActiveIcon from '../assets/Home/RewardsActiveIcon.png'
+import logo from '../assets/Home/logo.png'
+import blackLogo from '../assets/Home/blackLogo.png'
 const router = useRouter()
 const route = useRoute()
 const store = useStore()
@@ -17,6 +23,16 @@ let address = computed(()=>{
 })
 const goPath=(path)=>{
   router.push(path)
+}
+function IconPath(path,activeIcon,Icon,blackIcon){
+  if(route.path === path){
+    return activeIcon
+  }
+  if(route.path === '/'){
+    return Icon
+  }else{
+    return blackIcon
+  }
 }
 const Connect=()=>{
   if(!address.value){
@@ -33,18 +49,18 @@ onMounted(()=>{
 <template>
   <div class="Header">
     <div class="HeaderLeft">
-      <img src="../assets/Home/logo.png" class="Logo" alt="">
+      <img :src="route.path === '/' ? logo:blackLogo" class="Logo" alt="">
       <div class="menu">
         <div :class="['menuItem',{'blackFont':route.path !== '/'}]"  @click="goPath('/')">
-          <img :src="route.path === '/' ? HomeActiveIcon:HomeIcon" alt="">
+          <img :src="IconPath('/',HomeActiveIcon,HomeIcon,blackHomeIcon)" alt="">
           <span>HOME</span>
         </div>
         <div :class="['menuItem',{'blackFont':route.path !== '/'}]" @click="goPath('/Dao')">
-          <img :src="route.path === '/Dao' ? StakeActiveIcon:StakeIcon" alt="">
+          <img :src="IconPath('/Dao',StakeActiveIcon,StakeIcon,blackStakeIcon)" alt="">
           <span>DAO</span>
         </div>
         <div :class="['menuItem',{'blackFont':route.path !== '/'}]" @click="goPath('/Rewares')">
-          <img :src="route.path === '/Rewares' ? Rewards:Rewards" alt="">
+          <img :src="IconPath('/Rewares',RewardsActiveIcon,RewardsIcon,blackRewardsIcon)" alt="">
           <span>REWARDS</span>
         </div>
       </div>
