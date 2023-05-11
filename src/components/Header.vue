@@ -15,6 +15,8 @@ import blackRewardsIcon from '../assets/Home/blackRewardsIcon.png'
 import RewardsActiveIcon from '../assets/Home/RewardsActiveIcon.png'
 import logo from '../assets/Home/logo.png'
 import blackLogo from '../assets/Home/blackLogo.png'
+import blackMenu from '../assets/Home/blackMenu.png'
+import Menu from '../assets/Home/menu.png'
 const router = useRouter()
 const route = useRoute()
 const store = useStore()
@@ -41,6 +43,9 @@ const Connect=()=>{
     })
   }
 }
+const leftMenuSwitch = () => {
+  store.commit("SETLEFTMENU", !store.state.leftMenu);
+};
 onMounted(()=>{
   console.log(route.path)
 })
@@ -65,123 +70,128 @@ onMounted(()=>{
         </div>
       </div>
     </div>
-    <div :class="['connect','flexCenter',{'notHome':route.path !== '/'}]" @click="Connect">
-        {{ address ?  AddrHandle(address):'Connect wallet'}}
+    <div class="connect" @click="Connect">
+      <div class="content" :class="{ HomeConnect: route.path === '/' }">
+        {{ address ? AddrHandle(address) : "Connect wallet" }}
+      </div>
     </div>
+    <img
+      class="MenuIcon"
+      @click="leftMenuSwitch"
+      :src="route.path === '/' ? Menu:blackMenu"
+      alt=""
+    />
   </div>
 </template>
 
 <style lang="scss" scoped>
-  .Header{
-    max-width: 1400px;
-    width: 100%;
-    // margin: 0 13rem;
-    box-sizing: border-box;
-    height: 5.5rem;
-    position: fixed;
-    top: 2.75rem;
-    left: 50%;
-    transform: translateX(-50%);
+.Header {
+  max-width: 1400px;
+  width: 100%;
+  // margin: 0 13rem;
+  box-sizing: border-box;
+  height: 5.5rem;
+  // position: fixed;
+  // top: 2.75rem;
+  // left: 50%;
+  // transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  @media (max-width: 1450px) {
+    padding: 0 5rem;
+  }
+  @media (max-width: 767px) {
+    height: 8.5rem;
+  }
+  .HeaderLeft {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    @media (max-width:1450px) {
-      padding:0 5rem;
-    }
-    @media (max-width:767px) {
-      height: 8.5rem;
-    }
-    .HeaderLeft{
+  }
+  .connect {
+    width: 9.5rem;
+    height: 2.4rem;
+    background: linear-gradient(360deg, #299FEF 0%, #69C0FA 100%);
+    border-radius: 0.55rem;
+
+    font-size: 0.9rem;
+    line-height: 1rem;
+    padding: 1px;
+    .content {
+      color: #ffffff;
       display: flex;
-    }
-    .connect{
-      width: 9.5rem;
-      height: 2.4rem;
-      background: #FFFFFF;  
+      justify-content: center;
+      align-items: center;
       border-radius: 0.55rem;
-      font-size: 0.9rem;
-      line-height: 1rem;
+      width: 100%;
+      height: 100%;
+    }
+    .HomeConnect{
+      background: #FFFFFF;
       color: #00A0E9;
-      padding: 1px;
-      .content{
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        border-radius: 0.55rem;
-        width: 100%;
-        height: 100%;
-      }
-      .Connected{
-        background: #27173A;
-      }
-      @media (max-width:1024px) {
-        width: 12rem;
-      }
-      @media (max-width:425px) {
-        width: 20rem;
-        height: 3.5rem;
-      }
-      @media (max-width:375px) {
-        width: 25rem;
-        height: 5rem;
-      }
     }
-    .notHome{
-      background: linear-gradient(360deg, #299FEF 0%, #69C0FA 100%);
-      color: #FFFFFF;
+    // .Connected {
+    //   background: #27173a;
+    // }
+    @media (max-width: 1024px) {
+      width: 12rem;
     }
-    .Logo{
-      width: 4.75rem;
-      @media (max-width:425px) {
-        width: 6rem;
-      }
+    @media (max-width: 425px) {
+      display: none;
     }
-    .menu{
-      margin-left: 7.5rem;
+  }
+  .Logo {
+    height: 100%;
+  }
+  .MenuIcon {
+    display: none;
+    @media (max-width: 425px) {
+      width: 6rem;
+      display: block;
+    }
+  }
+  .menu {
+    margin-left: 7.5rem;
+    display: flex;
+    @media (max-width: 425px) {
+      // margin-left: 2.5rem;
+      display: none;
+    }
+    .menuItem {
       display: flex;
-      @media (max-width:425px) {
-        margin-left: 2.5rem;
-      }
-      .menuItem{
-        display: flex;
-        align-items: center;
-        margin-right: 3.2rem;
-        cursor: pointer;
-        img{
-          width: 18px;
-          height: 18px;
-          @media (max-width:768px) {
-            width: 2rem;
-            height: 2rem;
-          }
-          @media (max-width:425px) {
-            width: 4rem;
-            height: 4rem;
-          }
+      align-items: center;
+      margin-right: 3.2rem;
+      cursor: pointer;
+      img {
+        width: 18px;
+        height: 18px;
+        @media (max-width: 768px) {
+          width: 2rem;
+          height: 2rem;
         }
-        span{
-          font-size: 18px;
-          line-height: 1;
-          color: #FFFFFF;
-          margin-left: 0.6rem;
-          @media (max-width:768px) {
-            font-size: 2rem;
-          }
-          @media (max-width:425px) {
-            font-size: 2.5rem;
-          }
+        @media (max-width: 425px) {
+          width: 4rem;
+          height: 4rem;
         }
       }
-      .blackFont{
-        span{
-          color: #3D3D3D;
+      span {
+        font-size: 18px;
+        line-height: 1;
+        color: #ffffff;
+        margin-left: 0.6rem;
+        @media (max-width: 768px) {
+          font-size: 2rem;
         }
+        @media (max-width: 425px) {
+          font-size: 2.5rem;
+        }
+      }
+    }
+    .blackFont{
+      span{
+        color: #3D3D3D;
       }
     }
   }
-  .flexCenter{
-    display: flex;
-    justify-content:center;
-    align-items: center;
 }
 </style>

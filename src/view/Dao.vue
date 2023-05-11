@@ -95,6 +95,9 @@
       justify-content: space-between;
       margin: 80px 67px 70px;
       align-items: center;
+      @media (max-width: 768px) {
+        margin: 40px 33px 35px;
+      }
       .totalItem {
         .label {
           font-weight: 400;
@@ -106,6 +109,15 @@
           font-size: 40px;
           font-weight: 600;
           color: #ffffff;
+          @media (max-width: 768px) {
+            font-size: 30px;
+          }
+          @media (max-width: 550px) {
+            font-size: 24px;
+          }
+          @media (max-width: 425px) {
+            font-size: 18px;
+          }
         }
       }
       .separate {
@@ -115,25 +127,24 @@
     }
     display: flex;
     flex-direction: column;
-    width: 37.5rem;
+    width:750px;
     // background: #00b3ff;
     border-radius: 2.5rem;
     margin: 20px auto 0;
-    @media (max-width: 768px) {
-      width: 45rem;
-    }
-    @media (max-width: 425px) {
-      width: 65rem;
-    }
-    @media (max-width: 375px) {
-      width: 80rem;
+    @media (max-width: 1024px) {
+      width: 95%;
+      margin: 20px auto;
     }
     .Increase {
       margin: 0 67px 124px;
       display: flex;
       justify-content: space-between;
+      @media (max-width:768px) {
+        margin: 0 33px 62px;
+      }
       .Left {
         display: flex;
+        align-items: center;
         .name {
           font-weight: 600;
           color: #ffffff;
@@ -164,12 +175,16 @@
         margin-right: 28px;
         border-radius: 50%;
         background: #ff0000;
+        @media (max-width:768px) {
+          width: 35px;
+          height: 35px;
+        }
       }
     }
   }
   .separate{
-    width: 37.5rem;
-    margin: 30px auto 0;
+    // width: 37.5rem;
+    // margin: 30px auto 0;
   }
   .subscribe {
     padding: 70px 80px 50px;
@@ -177,6 +192,9 @@
     border-radius: 50px;
     background: #ffffff;
     box-shadow: 0px 3px 20px 0px rgba(0,0,0,0.1);
+    @media (max-width:768px) {
+      padding: 35px 40px 25px;
+    }
     .subscribeTitle {
       font-weight: 500;
       color: #262626;

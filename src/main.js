@@ -1,6 +1,8 @@
 import { createApp } from 'vue'
 import './style.css'
 import App from './App.vue'
+import ElementPlus from 'element-plus'
+import 'element-plus/dist/index.css'
 import {router} from './router'
 import {store} from './store'
 // 2. 定义一些路由
@@ -8,6 +10,7 @@ import {store} from './store'
 // 我们后面再讨论嵌套路由。
 
 const app = createApp(App)
+app.use(ElementPlus)
 app.use(router)
 app.use(store)
 app.mount('#app')

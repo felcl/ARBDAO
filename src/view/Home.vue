@@ -8,7 +8,7 @@
         <div class="subTitle">
           Simplified and secure participation in staking
         </div>
-        <div class="StakeBtn flexCenter">Stake now</div>
+        <span class="StakeBtn flexCenter">Stake now</span>
         <div class="totalRow">
           <div class="TotalItem">
             <div class="totalLabel">Total staked tokens</div>
@@ -170,10 +170,10 @@
       }
     }
     .StakeBtn {
-      width: 10.7rem;
-      height: 3rem;
+      width: max-content;
+      padding: 0.9rem 3.1rem;
       background: #ffffff;
-      border-radius: 11px;
+      border-radius: 0.5rem;
       margin-top: 2.5rem;
       font-weight: 500;
       color: #00a0e9;
@@ -183,15 +183,30 @@
       display: flex;
       margin: 9rem 0 6.5rem;
       justify-content: space-around;
+      @media (max-width:425px) {
+        flex-direction:column;
+      }
       .TotalItem {
+        @media (max-width:425px) {
+          margin-bottom: 16px;
+        }
         .totalLabel {
           color: #ffffff;
           font-size: 14px;
+          @media (max-width:560px) {
+            font-size: 12px;
+          }
         }
         .totalValue {
           font-weight: 500;
           color: #ffffff;
           font-size: 30px;
+          @media (max-width:768px) {
+            font-size: 22px;
+          }
+          @media (max-width:560px) {
+            font-size: 16px;
+          }
         }
       }
     }
@@ -202,6 +217,18 @@
     line-height: 1;
     color: #ffffff;
     text-align: center;
+    @media (max-width:1024px) {
+      font-size: 2.8rem;
+    }
+    @media (max-width:768px) {
+      font-size: 3.5rem;
+    }
+    @media (max-width:425px) {
+      font-size: 5rem;
+    }
+    @media (max-width:375px) {
+      font-size: 6rem;
+    }
   }
   .CenterSubTitle {
     margin-top: 12px;
@@ -213,16 +240,35 @@
   }
   .publicize {
     width: 43.9rem;
-    min-height: 433px;
+    // min-height: 21.65rem;
     background: #ffffff;
     border-radius: 1.4rem;
     margin: 50px auto 0;
+    overflow: hidden;
+    @media (max-width:1136px) {
+      width: 50rem;
+    }
+    @media (max-width:868px) {
+      width: 60rem;
+    }
+    @media (max-width:588px) {
+      width: 70rem;
+    }
+    @media (max-width:488px) {
+      width: 75rem;
+    }
+    @media (max-width:388px) {
+      width: 85rem;
+    }
     .publicizeMain {
       display: flex;
       align-items: center;
-      padding: 95px 187px 70px 145px;
+      padding: 4.75rem 7rem 3.5rem;
       .Icon {
-        margin-right: 145px;
+        margin-right: 7.25rem;
+        @media (max-width:388px) {
+          margin-right: 5rem;
+        }
         .iconBox {
           width: 64px;
           height: 64px;
@@ -245,7 +291,10 @@
         .data {
           display: flex;
           justify-content: space-between;
-          margin-top: 50px;
+          margin-top: 2.5rem;
+          @media (max-width:768px) {
+            flex-direction: column;
+          }
           .APR {
             display: flex;
             flex-direction: column;
@@ -262,7 +311,10 @@
           }
           .separate {
             height: 50px;
-            border-left: 2px solid #979797;
+            border-left: 1px solid #979797;
+            @media (max-width:768px) {
+              display: none;
+            }
           }
           .staked {
             display: flex;
@@ -283,11 +335,13 @@
       }
     }
     .StakeNow {
-      width: 200px;
-      height: 56px;
+      // width: 200px;
+      // height: 56px;
+      width: max-content;
+      padding: 0.75rem 2.75rem;
       background: #00a0e9;
-      border-radius: 11px;
-      margin: auto;
+      border-radius: 0.5rem;
+      margin:0 auto 2.7rem;
       font-weight: 500;
       color: #ffffff;
     }
@@ -295,49 +349,94 @@
   .join {
     background: #F5FBFF;
     padding: 58px 0 130px;
-    margin-top: 150px;
+    margin-top: 7.5rem;
     .CenterTitle{
         color: #00A0E9;
     }
     .CenterSubTitle{
         color: #3E3E3E;
+        max-width: 53.75rem;
+        margin: auto;
     }
     .joinBanner{
         width: 53.75rem;
         height: 11.2rem;
         background: url('../assets/Home/joinBanner.png') no-repeat 0 0 / 100% 100%;
         margin:55px auto 35px;
+        @media (max-width:768px) {
+          width: 65rem;
+          height: 14rem;
+        }
+        @media (max-width:425px) {
+          width: 75rem;
+          height: 20rem;
+        }
+        @media (max-width:375px) {
+          width: 80rem;
+          height: 23rem;
+        }
     }
     .contactRow{
         width: 53.75rem;
         display: flex;
         justify-content: space-between;
         margin: auto;
+        @media (max-width:768px) {
+          width: 65rem;
+        }
+        @media (max-width:425px) {
+          width: 75rem;
+        }
+        @media (max-width:375px) {
+          width: 80rem;
+        }
         .contactItem{
-            height: 7.1rem;
+            height: 8rem;
             flex: 1;
             box-shadow: 0px 4px 10px 0px rgba(0,0,0,0.15);
-            border-radius: 28px;
+            border-radius: 1.4rem;
             background: #FFFFFF;
-            padding: 39px 39px 49px;
+            padding: 2rem 2rem 2.5rem;
             box-sizing: border-box;
             display: flex;
             align-items: center;
+            @media (max-width:1024px) {
+              height: 8rem;
+            }
+            @media (max-width:650px) {
+              height: 10rem;
+            }
+            @media (max-width:500px) {
+              height: 14rem;
+            }
             .icon{
-                width: 2.7rem;
-                height: 2.7rem;
-                margin-right: 30px;
+              width: 2.7rem;
+              height: 2.7rem;
+              @media (max-width:768px) {
+                width: 27px;
+                height: 27px;
+              }
+              img{
+                  width: 100%;
+                }
+                margin-right: 1.5rem;
             }
             .Title{
                 .mainTitle{
                     font-size: 20px;
                     font-weight: 500;
                     color: #393939;
+                    @media (max-width:500px) {
+                      font-size: 16px;
+                    }
                 }
                 .subTitle{
                     font-weight: 400;
                     color: #858585;
                     font-size: 14px;
+                    @media (max-width:500px) {
+                      font-size: 12px;
+                    }
                 }
             }
         }

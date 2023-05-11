@@ -36,7 +36,7 @@ const goPath=(path)=>{
           <div class="headImg">
             <img src="" alt="" />
           </div>
-          <span>0x958825f16227a1ff652Dc6AC147071EA7024E424</span>
+          <span>{{ AddrHandle('0x958825f16227a1ff652Dc6AC147071EA7024E424',7,7) }}</span>
           <img
             @click="copyFun(address)"
             class="copy"
@@ -47,7 +47,8 @@ const goPath=(path)=>{
         </div>
         <div class="link">
           <span
-            >http://sadfs.dadsf.com/sdadsf
+            >
+            {{ AddrHandle('http://sadfs.dadsf.com/sdadsf',11,11) }}
             <img
               src="../assets/Home/copy.png"
               @click="copyFun(InviteUrl)"
