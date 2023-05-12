@@ -36,7 +36,7 @@ const Connect=()=>{
 </script>
 
 <template>
-  <!-- <Header></Header> -->
+  <Header></Header>
   <router-view></router-view>
   <el-drawer v-model="leftMenu"  @close="closeMenuSwitch" :size="176" :with-header="false">
     <div class="leftMenuTop">

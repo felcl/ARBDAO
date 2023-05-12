@@ -91,10 +91,10 @@ onMounted(()=>{
   // margin: 0 13rem;
   box-sizing: border-box;
   height: 5.5rem;
-  // position: fixed;
-  // top: 2.75rem;
-  // left: 50%;
-  // transform: translateX(-50%);
+  position: absolute;
+  top: 2.75rem;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
   align-items: center;
   justify-content: space-between;

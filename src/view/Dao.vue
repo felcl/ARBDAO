@@ -43,7 +43,7 @@
         <div class="Submit flexCenter">Submit</div>
       </div>
     </div>
-    <div class="subscribe separate">
+    <div class="subscribe independence">
         <div class="subscribeTitle">A币申购</div>
         <div class="subscribeLabel">申购类型</div>
         <div class="subscribeRow">
@@ -182,11 +182,10 @@
       }
     }
   }
-  .separate{
-    // width: 37.5rem;
-    // margin: 30px auto 0;
-  }
+
   .subscribe {
+    width:750px;
+    margin: 20px auto 0;
     padding: 70px 80px 50px;
     box-sizing: border-box;
     border-radius: 50px;
@@ -194,6 +193,10 @@
     box-shadow: 0px 3px 20px 0px rgba(0,0,0,0.1);
     @media (max-width:768px) {
       padding: 35px 40px 25px;
+    }
+    @media (max-width: 1024px) {
+      width: 100%;
+      margin: 20px auto;
     }
     .subscribeTitle {
       font-weight: 500;
@@ -234,6 +237,13 @@
       border-radius: 12px;
       margin-top: 60px;
       color: #fff;
+    }
+  }
+  .independence{
+    width:750px;
+    margin: 30px auto;
+    @media (max-width: 1024px) {
+      width: 95%;
     }
   }
 }
