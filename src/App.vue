@@ -1,9 +1,33 @@
 <script setup>
-import { onMounted } from 'vue'
+import { onMounted , watch, computed} from 'vue'
 import { useStore } from 'vuex'
+import Axios from './axios'
 import {init} from './web3'
 import Layout from './Layout/Layout.vue'
 const store = useStore()
+const address = computed(() => {
+  return store.state.address;
+});
+watch(
+  address,
+  (address) => {
+    if (address) {
+      Axios.post('/uUser/auth',{
+        userAddress:address,
+        refereeAddress:"",
+        chainType:1
+      }).then(res=>{
+        if(res.data.code === 200){
+          store.commit('SETTOKEN',res.data.data)
+        }
+        console.log(res,"用户登录")
+      })
+    }
+  },
+  {
+    immediate: true,
+  }
+);
 onMounted(()=>{
     if(window.ethereum){
       //用户账号初始化合约

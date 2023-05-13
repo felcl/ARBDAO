@@ -1,4 +1,6 @@
 import Web3 from "web3"
+import {ABI,contractAddress} from './config'
+export const contract ={}
 export const connect =function (callback){
     var web3Provider
     if (window.ethereum) {
@@ -39,11 +41,11 @@ export const init = function(callback) {
         } 
     })
     //实例化web3
-    // for (const key in contractAddress) {
-    //     // //console.log(key,contractAddress[key])
-    //     contract[key]= new web3.eth.Contract(
-    //         ABIObj[key],
-    //         contractAddress[key]
-    //     )
-    // }
+    for (const key in contractAddress) {
+        // //console.log(key,contractAddress[key])
+        contract[key]= new web3.eth.Contract(
+            ABI[key],
+            contractAddress[key]
+        )
+    }
 }

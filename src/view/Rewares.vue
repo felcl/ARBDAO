@@ -2,11 +2,63 @@
 import "../assets/style/Rewares.scss";
 import { AddrHandle } from "../utils/tool";
 import {useRouter,useRoute} from 'vue-router'
-import { ref } from "vue";
-const tabVal = ref("Reward");
+import { ElNotification } from 'element-plus'
+import { useStore } from "vuex";
+import Axios from '../axios'
+import copy from "copy-to-clipboard";
+import { ref , computed , watch} from "vue";
 const router = useRouter()
+const store = useStore();
+const tabVal = ref("Reward");
+const InviteUrl = ref("");
+const rewardTotalAmount = ref(0);
+const stakeTotalAmount = ref(0);
 const goPath=(path)=>{
   router.push(path)
+}
+const address = computed(() => {
+  return store.state.address;
+});
+const token = computed(() => {
+  return store.state.token;
+});
+watch(address,(address)=>{
+ if(address){
+  InviteUrl.value = window.location.origin+window.location.pathname+'#/?invite=' + address
+ }
+},{
+  immediate:true
+})
+watch(token,(token)=>{
+ if(token){
+  Axios.get('/dao/userBase').then(res=>{
+    if(res.data.code === 200){
+      rewardTotalAmount.value = res.data.data.rewardTotalAmount
+      stakeTotalAmount.value = res.data.data.stakeTotalAmount
+    }
+    console.log(res,"用户质押信息")
+  })
+  Axios.get('/dao/rewardDetail/1').then(res=>{
+    if(res.data.code === 200){
+    }
+    console.log(res,"用户A币收益列表")
+  })
+  Axios.get('/dao/rewardDetail/2').then(res=>{
+    if(res.data.code === 200){
+    }
+    console.log(res,"用户SVIP收益列表")
+  })
+ }
+},{
+  immediate:true
+})
+const copyFun = (text)=>{
+    copy(text)
+    ElNotification({
+        title: 'Success',
+        message: '复制成功',
+        type: 'success',
+    })
 }
 </script>
 
@@ -36,7 +88,7 @@ const goPath=(path)=>{
           <div class="headImg">
             <img src="" alt="" />
           </div>
-          <span>{{ AddrHandle('0x958825f16227a1ff652Dc6AC147071EA7024E424',7,7) }}</span>
+          <span>{{ address ? AddrHandle(address,7,7) :'请链接钱包' }}</span>
           <img
             @click="copyFun(address)"
             class="copy"
@@ -48,7 +100,7 @@ const goPath=(path)=>{
         <div class="link">
           <span
             >
-            {{ AddrHandle('http://sadfs.dadsf.com/sdadsf',11,11) }}
+            {{ AddrHandle(InviteUrl,11,11) }}
             <img
               src="../assets/Home/copy.png"
               @click="copyFun(InviteUrl)"
@@ -69,11 +121,11 @@ const goPath=(path)=>{
         <div class="history">
           <div class="historyItem">
             <span class="Label">Reward Total</span>
-            <span class="number">22222222</span>
+            <span class="number">{{ rewardTotalAmount }}</span>
           </div>
           <div class="historyItem">
             <span class="Label">Stake Total</span>
-            <span class="number">22222222</span>
+            <span class="number">{{ stakeTotalAmount }}</span>
           </div>
         </div>
       </div>

@@ -5,12 +5,16 @@ export const store = createStore({
   state () {
     return {
       address: '',
-      leftMenu: false
+      leftMenu: false,
+      token:""
     }
   },
   mutations: {
     SETADDRESS (state,address) {
       state.address = address
+    },
+    SETTOKEN(state,token) {
+      state.token = token
     },
     SETLEFTMENU (state,leftMenu){
       state.leftMenu = leftMenu
