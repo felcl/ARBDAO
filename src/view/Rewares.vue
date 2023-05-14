@@ -13,6 +13,7 @@ const tabVal = ref("Reward");
 const InviteUrl = ref("");
 const rewardTotalAmount = ref(0);
 const stakeTotalAmount = ref(0);
+const amount = ref(0);
 const goPath=(path)=>{
   router.push(path)
 }
@@ -33,6 +34,7 @@ watch(token,(token)=>{
  if(token){
   Axios.get('/dao/userBase').then(res=>{
     if(res.data.code === 200){
+        amount.value = res.data.data.amount
       rewardTotalAmount.value = res.data.data.rewardTotalAmount
       stakeTotalAmount.value = res.data.data.stakeTotalAmount
     }
@@ -114,7 +116,7 @@ const copyFun = (text)=>{
         <div class="balanceRow">
           <div class="balanceNum">
             <span class="tokenName">A币</span>
-            <span class="tokenNum">200000</span>
+            <span class="tokenNum">{{ amount ? amount : 0 }}</span>
           </div>
           <div class="Withdraw flexCenter">Withdraw</div>
         </div>

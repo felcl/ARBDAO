@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted , watch, computed} from 'vue'
+import { onMounted , watch, computed , ref} from 'vue'
 import { useStore } from 'vuex'
 import Axios from './axios'
 import {init} from './web3'
@@ -8,6 +8,7 @@ const store = useStore()
 const address = computed(() => {
   return store.state.address;
 });
+const centerDialogVisible = ref(false)
 watch(
   address,
   (address) => {
@@ -64,8 +65,33 @@ onMounted(()=>{
 
 <template>
     <Layout></Layout>
+    <el-dialog v-model="centerDialogVisible" title="Invitation binding" width="30%" center :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false">
+    <input class="InvitationInput" placeholder="Please enter the bound link" v-model="InvitationLink" type="text">
+    <div class="enter">Confirm</div>
+  </el-dialog>
 </template>
 
 <style lang="scss" scoped>
-
+.InvitationInput{
+width: 100%;
+height: 46px;
+background: #F5FBFF;
+border-radius: 14px;
+border: none;
+outline: none;
+padding: 0 25px;
+box-sizing: border-box;
+}
+.enter{
+  width: 100%;
+  height: 46px;
+  background: linear-gradient(360deg, #299FEF 0%, #69C0FA 100%);
+  border-radius: 12px;
+  margin-top: 30px;
+  color: #FFFFFF;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 </style>
