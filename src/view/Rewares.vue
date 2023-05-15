@@ -1,6 +1,6 @@
 <script setup>
 import "../assets/style/Rewares.scss";
-import { AddrHandle } from "../utils/tool";
+import { AddrHandle , GetQueryString} from "../utils/tool";
 import {useRouter,useRoute} from 'vue-router'
 import { ElNotification } from 'element-plus'
 import { useStore } from "vuex";
@@ -10,7 +10,9 @@ import { ref , computed , watch} from "vue";
 const router = useRouter()
 const store = useStore();
 const tabVal = ref("Reward");
+const centerDialogVisible = ref(false)
 const InviteUrl = ref("");
+const InvitationLink = ref("");
 const rewardTotalAmount = ref(0);
 const stakeTotalAmount = ref(0);
 const amount = ref(0);
@@ -25,7 +27,7 @@ const token = computed(() => {
 });
 watch(address,(address)=>{
  if(address){
-  InviteUrl.value = window.location.origin+window.location.pathname+'#/?invite=' + address
+  InviteUrl.value = window.location.origin+window.location.pathname+'#/?address=' + address
  }
 },{
   immediate:true
@@ -50,6 +52,21 @@ watch(token,(token)=>{
     }
     console.log(res,"用户SVIP收益列表")
   })
+  Axios.get('/dao/drawDetail').then(res=>{
+    if(res.data.code === 200){
+    }
+    console.log(res,"用户提现记录")
+  })
+  Axios.get('/dao/userReferee').then(res=>{
+    if(res.data.code === 200){
+    }
+    console.log(res,"用户邀请记录")
+  })
+  Axios.get('/uUser/checkBind').then(res=>{
+    if(res.data.code === 200){
+    }
+    console.log(res,"检测是否绑定上级地址")
+  })
  }
 },{
   immediate:true
@@ -61,6 +78,42 @@ const copyFun = (text)=>{
         message: '复制成功',
         type: 'success',
     })
+}
+function bind(){
+  if(!InvitationLink.value){
+    return ElNotification({
+        title: 'Warning',
+        message: '请输入邀请链接',
+        type: 'warning',
+    })
+  }
+  let refereeUserAddress = GetQueryString('address',InvitationLink.value)
+  if(!refereeUserAddress){
+    return ElNotification({
+        title: 'Warning',
+        message: '请输入正确的邀请链接',
+        type: 'warning',
+    })
+  }
+  // GetQueryString('address',InvitationLink.value)
+  Axios.post('/uUser/bind',{
+	  refereeUserAddress
+  }).then(res=>{
+    if(res.data.code === 200){
+      ElNotification({
+          title: 'Success',
+          message: '绑定成功',
+          type: 'success',
+      })
+    }else{
+      ElNotification({
+          title: 'Warning',
+          message: '绑定失败',
+          type: 'warning',
+      })
+    }
+    console.log(res,"绑定上级")
+  })
 }
 </script>
 
@@ -108,7 +161,7 @@ const copyFun = (text)=>{
               @click="copyFun(InviteUrl)"
               alt=""
           /></span>
-          <div v-if="tabVal === 'Reward'" class="Team flexCenter" @click="goPath('/Team')">邀请绑定 </div>
+          <div v-if="tabVal === 'Reward'" class="Team flexCenter" @click="centerDialogVisible = true">邀请绑定 </div>
           <div v-else class="Team flexCenter" @click="goPath('/Team')">团队 </div>
         </div>
       </div>
@@ -227,5 +280,33 @@ const copyFun = (text)=>{
         </div>
       </div>
     </template>
+    <el-dialog v-model="centerDialogVisible" title="Invitation binding" width="30%" center :close-on-press-escape="false">
+      <input class="InvitationInput" placeholder="Please enter the bound link" v-model="InvitationLink" type="text">
+      <div class="enter" @click="bind">Confirm</div>
+    </el-dialog>
   </div>
 </template>
+<style scoped lang="scss">
+.InvitationInput{
+width: 100%;
+height: 46px;
+background: #F5FBFF;
+border-radius: 14px;
+border: none;
+outline: none;
+padding: 0 25px;
+box-sizing: border-box;
+}
+.enter{
+  width: 100%;
+  height: 46px;
+  background: linear-gradient(360deg, #299FEF 0%, #69C0FA 100%);
+  border-radius: 12px;
+  margin-top: 30px;
+  color: #FFFFFF;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+</style>
