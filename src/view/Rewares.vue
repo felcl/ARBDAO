@@ -1,19 +1,26 @@
 <script setup>
 import "../assets/style/Rewares.scss";
-import { AddrHandle , GetQueryString} from "../utils/tool";
+import { AddrHandle , GetQueryString , dateFormat} from "../utils/tool";
 import {useRouter,useRoute} from 'vue-router'
 import { ElNotification } from 'element-plus'
 import { useStore } from "vuex";
 import Axios from '../axios'
 import copy from "copy-to-clipboard";
 import { ref , computed , watch} from "vue";
+import { contract } from '../web3'
 const router = useRouter()
 const store = useStore();
 const tabVal = ref("Reward");
 const centerDialogVisible = ref(false)
 const InviteUrl = ref("");
 const InvitationLink = ref("");
+const AIncome = ref([]);
+const SCVIPIncome = ref([]);
+const invitelist = ref([]);
+const Withdrawallist = ref([]);
+const WithdrawalTotal = ref(0);
 const rewardTotalAmount = ref(0);
+const isBind = ref(0);
 const stakeTotalAmount = ref(0);
 const amount = ref(0);
 const goPath=(path)=>{
@@ -44,26 +51,34 @@ watch(token,(token)=>{
   })
   Axios.get('/dao/rewardDetail/1').then(res=>{
     if(res.data.code === 200){
+        AIncome.value = res.data.data
     }
     console.log(res,"用户A币收益列表")
   })
   Axios.get('/dao/rewardDetail/2').then(res=>{
     if(res.data.code === 200){
+        SCVIPIncome.value = res.data.data
     }
     console.log(res,"用户SVIP收益列表")
   })
   Axios.get('/dao/drawDetail').then(res=>{
     if(res.data.code === 200){
+        res.data.data.forEach(item=>{
+            WithdrawalTotal.value += item.drawAmount
+        })
+        Withdrawallist.value = res.data.data
     }
     console.log(res,"用户提现记录")
   })
   Axios.get('/dao/userReferee').then(res=>{
     if(res.data.code === 200){
+        invitelist.value = res.data.data
     }
     console.log(res,"用户邀请记录")
   })
   Axios.get('/uUser/checkBind').then(res=>{
     if(res.data.code === 200){
+        isBind.value = res.data.data
     }
     console.log(res,"检测是否绑定上级地址")
   })
@@ -100,6 +115,12 @@ function bind(){
 	  refereeUserAddress
   }).then(res=>{
     if(res.data.code === 200){
+        Axios.get('/uUser/checkBind').then(res=>{
+            if(res.data.code === 200){
+                isBind.value = res.data.data
+            }
+            console.log(res,"检测是否绑定上级地址")
+        })
       ElNotification({
           title: 'Success',
           message: '绑定成功',
@@ -114,6 +135,23 @@ function bind(){
     }
     console.log(res,"绑定上级")
   })
+}
+function Withdraw(){
+    // if(!amount.value){
+    //     return ElNotification({
+    //       title: 'Warning',
+    //       message: '暂无收益',
+    //       type: 'warning',
+    //   })
+    // }
+    Axios.post('/dao/draw').then(res=>{
+        console.log(res)
+        if(res.data.code === 200){
+            contract.Dao.methods.drawToken(res.data.data).send({from:address.value}).then(res=>{
+                console.log(res,"提现")
+            })
+        }
+    })
 }
 </script>
 
@@ -161,7 +199,7 @@ function bind(){
               @click="copyFun(InviteUrl)"
               alt=""
           /></span>
-          <div v-if="tabVal === 'Reward'" class="Team flexCenter" @click="centerDialogVisible = true">邀请绑定 </div>
+          <div v-if="isBind === 0" class="Team flexCenter" @click="centerDialogVisible = true">邀请绑定 </div>
           <div v-else class="Team flexCenter" @click="goPath('/Team')">团队 </div>
         </div>
       </div>
@@ -171,7 +209,7 @@ function bind(){
             <span class="tokenName">A币</span>
             <span class="tokenNum">{{ amount ? amount : 0 }}</span>
           </div>
-          <div class="Withdraw flexCenter">Withdraw</div>
+          <div class="Withdraw flexCenter" @click="Withdraw">Withdraw</div>
         </div>
         <div class="history">
           <div class="historyItem">
@@ -191,17 +229,9 @@ function bind(){
         <span class="more">more></span>
       </div>
       <div class="RewardBox">
-        <div class="RewardRow">
-          <span class="num">+122</span>
-          <span class="time">2022/02/22 12:22:33</span>
-        </div>
-        <div class="RewardRow">
-          <span class="num">+122</span>
-          <span class="time">2022/02/22 12:22:33</span>
-        </div>
-        <div class="RewardRow">
-          <span class="num">+122</span>
-          <span class="time">2022/02/22 12:22:33</span>
+        <div class="RewardRow" v-for="item in AIncome">
+          <span class="num">+{{ item.rewardArb }}</span>
+          <span class="time">{{ dateFormat('YYYY/mm/dd HH:MM:SS',new Date(item.createTime)) }}</span>
         </div>
       </div>
       <div class="LabelRow">
@@ -209,17 +239,9 @@ function bind(){
         <span class="more">more></span>
       </div>
       <div class="RewardBox">
-        <div class="RewardRow">
-          <span class="num">+122</span>
-          <span class="time">2022/02/22 12:22:33</span>
-        </div>
-        <div class="RewardRow">
-          <span class="num">+122</span>
-          <span class="time">2022/02/22 12:22:33</span>
-        </div>
-        <div class="RewardRow">
-          <span class="num">+122</span>
-          <span class="time">2022/02/22 12:22:33</span>
+        <div class="RewardRow" v-for="item in SCVIPIncome">
+          <span class="num">+{{ item.rewardArb }}</span>
+          <span class="time">{{ dateFormat('YYYY/mm/dd HH:MM:SS',new Date(item.createTime)) }}</span>
         </div>
       </div>
     </template>
@@ -231,27 +253,13 @@ function bind(){
       <div class="RewardBox">
         <div class="total">
           <div class="label">累计提现</div>
-          <div class="totalNum">2912.212</div>
+          <div class="totalNum">{{ WithdrawalTotal }}</div>
         </div>
-        <div class="RewardRow">
-          <span class="address">dadsda*****dadsdd</span>
+        <div class="RewardRow" v-for="item in Withdrawallist">
+          <span class="address">{{ AddrHandle(item.userAddress,6,6) }}</span>
           <div class="timeAndNum">
-            <span class="RecordNum">122</span>
-            <span class="RecordTime">2022/02/22 12:22:33</span>
-          </div>
-        </div>
-        <div class="RewardRow">
-          <span class="address">dadsda*****dadsdd</span>
-          <div class="timeAndNum">
-            <span class="RecordNum">122</span>
-            <span class="RecordTime">2022/02/22 12:22:33</span>
-          </div>
-        </div>
-        <div class="RewardRow">
-          <span class="address">dadsda*****dadsdd</span>
-          <div class="timeAndNum">
-            <span class="RecordNum">122</span>
-            <span class="RecordTime">2022/02/22 12:22:33</span>
+            <span class="RecordNum">{{ item.drawAmount }}</span>
+            <span class="RecordTime">{{ dateFormat('YYYY/mm/dd HH:MM:SS',new Date(item.createTime)) }}</span>
           </div>
         </div>
       </div>
@@ -260,22 +268,10 @@ function bind(){
         <span class="more">more></span>
       </div>
       <div class="RewardBox">
-        <div class="RewardRow">
-          <span class="address">dadsda*****dadsdd</span>
+        <div class="RewardRow" v-for="item in invitelist">
+          <span class="address">{{ AddrHandle(item.userAddress,6,6) }}</span>
           <div class="timeAndNum">
-            <span class="RecordTime">2022/02/22 12:22:33</span>
-          </div>
-        </div>
-        <div class="RewardRow">
-          <span class="address">dadsda*****dadsdd</span>
-          <div class="timeAndNum">
-            <span class="RecordTime">2022/02/22 12:22:33</span>
-          </div>
-        </div>
-        <div class="RewardRow">
-          <span class="address">dadsda*****dadsdd</span>
-          <div class="timeAndNum">
-            <span class="RecordTime">2022/02/22 12:22:33</span>
+            <span class="RecordTime">{{ dateFormat('YYYY/mm/dd HH:MM:SS',new Date(item.createTime)) }}</span>
           </div>
         </div>
       </div>
