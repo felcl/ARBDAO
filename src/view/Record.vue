@@ -1,25 +1,49 @@
+<script setup>
+import {onMounted , ref , watch , computed} from 'vue'
+import {useRouter} from 'vue-router'
+import {dateFormat,AddrHandle} from "../utils/tool";
+import { useStore } from "vuex";
+import Axios from '../axios';
+const store = useStore();
+const router = useRouter()
+const RecordList = ref([])
+const token = computed(() => {
+  return store.state.token;
+});
+watch(token,(token)=>{
+if(token){
+    Axios.get(`/dao/drawDetail`).then(res=>{
+        RecordList.value = res.data.data
+        console.log(res,"提现记录")
+    })
+}
+},{
+    immediate:true
+})
+function goPath(path){
+    router.push(path)
+}
+</script>
+
 <template>
     <div class="Record">
         <div class="RecordHeader">
-            <img src="../assets/Home/back.png" alt="">
+            <img src="../assets/Home/back.png" @click="router.go(-1)" alt="">
             <div>提现记录</div>
             <div></div>
         </div>
         <div class="subTitle">Track your MATIC staking rewards with ARB</div>
         <div class="RecordList">
-            <div class="RecordItem">
-                <div class="address">dadsda*****dadsdd</div>
+            <div class="RecordItem" v-for="item in RecordList">
+                <div class="address">{{ AddrHandle(item.userAddress,6,6) }}</div>
                 <div class="numTime">
-                    <div class="num">122</div>
-                    <div class="time">2022/02/22 12:22:33</div>
+                    <div class="num">{{ item.drawAmount }}</div>
+                    <div class="time">{{ dateFormat('YYYY/mm/dd HH:MM:SS',new Date(item.createTime)) }}</div>
                 </div>
             </div>
         </div>
     </div>
 </template>
-
-<script setup>
-</script>
 
 <style lang="scss" scoped>
 .Record{

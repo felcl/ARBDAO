@@ -70,10 +70,22 @@ onMounted(()=>{
         </div>
       </div>
     </div>
-    <div class="connect" @click="Connect">
-      <div class="content" :class="{ HomeConnect: route.path === '/' }">
-        {{ address ? AddrHandle(address) : "Connect wallet" }}
+    <div class="HeaderRight">
+      <div class="connect" @click="Connect">
+        <div class="content" :class="{ HomeConnect: route.path === '/' }">
+          {{ address ? AddrHandle(address) : "Connect wallet" }}
+        </div>
       </div>
+      <el-dropdown trigger="click">
+        <img src="../assets/Home/lang.png" alt="">
+        <template #dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item>简体中文</el-dropdown-item>
+            <el-dropdown-item>한국어</el-dropdown-item>
+            <el-dropdown-item>English</el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
     </div>
     <img
       class="MenuIcon"
@@ -107,6 +119,13 @@ onMounted(()=>{
   }
   .HeaderLeft {
     display: flex;
+  }
+  .HeaderRight{
+    display: flex;
+    align-items: center;
+    img{
+      margin-left: 38px;
+    }
   }
   .connect {
     width: 9.5rem;

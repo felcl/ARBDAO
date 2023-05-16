@@ -190,7 +190,7 @@ onMounted(()=>{
           </svg>
           approve
         </div>
-        <div class="Submit flexCenter" v-else @click="subscribe(arbsList[arbIndex].id)">
+        <div class="Submit flexCenter" v-else @click="subscribe(arbsList[arbIndex].id,'vip')">
           <svg viewBox="25 25 50 50" v-if="inSubscribe">
             <circle cx="50" cy="50" r="20"></circle>
           </svg>
@@ -210,7 +210,7 @@ onMounted(()=>{
           </svg>
           approve
       </div>
-      <div class="Submit flexCenter" v-else @click="subscribe(svipList[svipIndex].id)">
+      <div class="Submit flexCenter" v-else @click="subscribe(svipList[svipIndex].id,'svip')">
         <svg viewBox="25 25 50 50" v-if="inSVIPSubscribe">
             <circle cx="50" cy="50" r="20"></circle>
           </svg>
@@ -298,7 +298,7 @@ onMounted(()=>{
       margin: 20px auto;
     }
     .Increase {
-      margin: 0 67px 124px;
+      margin: 0 67px 84px;
       display: flex;
       justify-content: space-between;
       @media (max-width: 768px) {

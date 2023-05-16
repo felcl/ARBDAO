@@ -41,6 +41,7 @@ watch(address,(address)=>{
 })
 watch(token,(token)=>{
  if(token){
+  WithdrawalTotal.value = 0
   Axios.get('/dao/userBase').then(res=>{
     if(res.data.code === 200){
         amount.value = res.data.data.amount
@@ -226,54 +227,66 @@ function Withdraw(){
     <template v-if="tabVal === 'Reward'">
       <div class="LabelRow">
         <span class="labelName">A币 Reward</span>
-        <span class="more">more></span>
+        <span class="more" @click="goPath('/Reward?type=A')">more></span>
       </div>
       <div class="RewardBox">
-        <div class="RewardRow" v-for="item in AIncome">
-          <span class="num">+{{ item.rewardArb }}</span>
-          <span class="time">{{ dateFormat('YYYY/mm/dd HH:MM:SS',new Date(item.createTime)) }}</span>
-        </div>
+        <template v-if="AIncome.length !==0">
+          <div class="RewardRow" v-for="item in AIncome">
+            <span class="num">+{{ item.rewardArb }}</span>
+            <span class="time">{{ dateFormat('YYYY/mm/dd HH:MM:SS',new Date(item.createTime)) }}</span>
+          </div>
+        </template>
+        <el-empty v-else description="description" />
       </div>
       <div class="LabelRow">
         <span class="labelName">SVIP Reward</span>
-        <span class="more">more></span>
+        <span class="more" @click="goPath('/Reward?type=SVIP')">more></span>
       </div>
       <div class="RewardBox">
-        <div class="RewardRow" v-for="item in SCVIPIncome">
-          <span class="num">+{{ item.rewardArb }}</span>
-          <span class="time">{{ dateFormat('YYYY/mm/dd HH:MM:SS',new Date(item.createTime)) }}</span>
-        </div>
+        <template v-if="SCVIPIncome.length !==0">
+          <div class="RewardRow" v-for="item in SCVIPIncome">
+            <span class="num">+{{ item.rewardArb }}</span>
+            <span class="time">{{ dateFormat('YYYY/mm/dd HH:MM:SS',new Date(item.createTime)) }}</span>
+          </div>
+        </template>
+        <el-empty v-else description="description" />
       </div>
     </template>
     <template v-else>
       <div class="LabelRow">
         <span class="labelName">提现记录</span>
-        <span class="more">more></span>
+        <span class="more" @click="goPath('/Record')">more></span>
       </div>
       <div class="RewardBox">
         <div class="total">
           <div class="label">累计提现</div>
           <div class="totalNum">{{ WithdrawalTotal }}</div>
         </div>
-        <div class="RewardRow" v-for="item in Withdrawallist">
-          <span class="address">{{ AddrHandle(item.userAddress,6,6) }}</span>
-          <div class="timeAndNum">
-            <span class="RecordNum">{{ item.drawAmount }}</span>
-            <span class="RecordTime">{{ dateFormat('YYYY/mm/dd HH:MM:SS',new Date(item.createTime)) }}</span>
+        <template v-if="Withdrawallist.length !==0">
+          <div class="RewardRow" v-for="item in Withdrawallist">
+            <span class="address">{{ AddrHandle(item.userAddress,6,6) }}</span>
+            <div class="timeAndNum">
+              <span class="RecordNum">{{ item.drawAmount }}</span>
+              <span class="RecordTime">{{ dateFormat('YYYY/mm/dd HH:MM:SS',new Date(item.createTime)) }}</span>
+            </div>
           </div>
-        </div>
+        </template>
+        <el-empty v-else description="description" />
       </div>
       <div class="LabelRow">
         <span class="labelName">邀请记录</span>
-        <span class="more">more></span>
+        <span class="more" @click="goPath('/Team')">more></span>
       </div>
       <div class="RewardBox">
-        <div class="RewardRow" v-for="item in invitelist">
-          <span class="address">{{ AddrHandle(item.userAddress,6,6) }}</span>
-          <div class="timeAndNum">
-            <span class="RecordTime">{{ dateFormat('YYYY/mm/dd HH:MM:SS',new Date(item.createTime)) }}</span>
+        <template v-if="invitelist.length !==0">
+          <div class="RewardRow" v-for="item in invitelist">
+            <span class="address">{{ AddrHandle(item.userAddress,6,6) }}</span>
+            <div class="timeAndNum">
+              <span class="RecordTime">{{ dateFormat('YYYY/mm/dd HH:MM:SS',new Date(item.createTime)) }}</span>
+            </div>
           </div>
-        </div>
+        </template>
+        <el-empty v-else description="description" />
       </div>
     </template>
     <el-dialog v-model="centerDialogVisible" title="Invitation binding" width="30%" center :close-on-press-escape="false">

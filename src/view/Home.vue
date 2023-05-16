@@ -1,4 +1,16 @@
-<script setup></script>
+<script setup>
+import Axios from '../axios'
+import {onMounted,ref} from 'vue'
+const Info = ref(null)
+onMounted(()=>{
+  Axios.get('/home/data').then(res=>{
+    if(res.data.code === 200){
+      Info.value = res.data.data
+    }
+    console.log(res,"首页数据")
+  })
+})
+</script>
 
 <template>
   <div class="bgColor">
@@ -12,15 +24,15 @@
         <div class="totalRow">
           <div class="TotalItem">
             <div class="totalLabel">Total staked tokens</div>
-            <div class="totalValue">$11,983,033,282</div>
+            <div class="totalValue" v-if="Info">${{ Info.totalPledgeAmount }}</div>
           </div>
           <div class="TotalItem">
             <div class="totalLabel">Total rewards paid</div>
-            <div class="totalValue">$572,854,126</div>
+            <div class="totalValue" v-if="Info">${{ Info.totalReward }}</div>
           </div>
           <div class="TotalItem">
             <div class="totalLabel">Stakers</div>
-            <div class="totalValue">11,983,033,282</div>
+            <div class="totalValue" v-if="Info">{{ Info.userCount }}</div>
           </div>
         </div>
         <!-- <div class="FriendlyLinks">
@@ -56,12 +68,12 @@
             </div>
             <div class="data">
               <div class="APR">
-                <div class="APRValue">4.3%</div>
+                <div class="APRValue" v-if="Info">{{Info.arbApr}}%</div>
                 <span>APR</span>
               </div>
               <div class="separate"></div>
               <div class="staked">
-                <div class="stakedValue">$104,337,536</div>
+                <div class="stakedValue" v-if="Info">${{Info.arbStaked}}</div>
                 <span>Staked</span>
               </div>
             </div>
@@ -69,7 +81,7 @@
         </div>
         <div class="StakeNow flexCenter">Stake now</div>
       </div>
-      <div class="CenterTitle">Subscribe</div>
+      <div class="CenterTitle">SVIP</div>
       <div class="CenterSubTitle">
         Lido lets you stake tokens from many networks. Choose a network below to
         get started.
@@ -87,12 +99,12 @@
             </div>
             <div class="data">
               <div class="APR">
-                <div class="APRValue">4.3%</div>
+                <div class="APRValue" v-if="Info">{{Info.svipApr}}%</div>
                 <span>APR</span>
               </div>
               <div class="separate"></div>
               <div class="staked">
-                <div class="stakedValue">$104,337,536</div>
+                <div class="stakedValue" v-if="Info">${{Info.svipStaked}}</div>
                 <span>Staked</span>
               </div>
             </div>
@@ -101,7 +113,7 @@
         <div class="StakeNow flexCenter">Stake now</div>
       </div>
       <div class="join">
-        <div class="CenterTitle">Subscribe</div>
+        <div class="CenterTitle">Join our community</div>
         <div class="CenterSubTitle">
           Lido lets you stake tokens from many networks. Choose a network below
           to get started.
@@ -356,7 +368,7 @@
     .CenterSubTitle{
         color: #3E3E3E;
         max-width: 53.75rem;
-        margin: auto;
+        margin:12px auto 0;
     }
     .joinBanner{
         width: 53.75rem;

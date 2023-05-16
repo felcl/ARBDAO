@@ -1,33 +1,54 @@
 <script setup>
-</script>
+import {onMounted , ref , watch , computed} from 'vue'
+import {useRoute} from 'vue-router'
+import Axios from '../axios';
+import {dateFormat} from "../utils/tool";
+import { useStore } from "vuex";
+const store = useStore();
+const route = useRoute()
+const type = ref('A')
+const RewardList = ref([])
+const typeMap = {
+    A:1,
+    SVIP:2
+}
+const token = computed(() => {
+  return store.state.token;
+});
+watch(token,(token)=>{
+if(token){
+    Axios.get(`/dao/rewardDetail/${typeMap[type.value]}`).then(res=>{
+        RewardList.value = res.data.data
+        console.log(res,"收益记录")
+    })
+}
+},{
+    immediate:true
+})
 
+onMounted(()=>{
+    if(route.query.type){
+        type.value = route.query.type
+    }
+    
+})
+</script>
+<!-- 收益记录 -->
 <template>
   <div class="Reward">
     <div class="RewardHead">
         <img src="" alt="">
         <div>
-            <div class="StakeTitle">SVIP Reward</div>
+            <div class="StakeTitle">{{ type }} Reward</div>
             <div class="StakeSubTitle">Track your MATIC staking rewards with ARB</div>
         </div>
         <div>
         </div>
     </div>
     <div class="RewardBox">
-        <div class="RewardRow">
-            <span class="num">+122</span>
-            <span class="time">2022/02/22 12:22:33</span>
-        </div>
-        <div class="RewardRow">
-            <span class="num">+122</span>
-            <span class="time">2022/02/22 12:22:33</span>
-        </div>
-        <div class="RewardRow">
-            <span class="num">+122</span>
-            <span class="time">2022/02/22 12:22:33</span>
-        </div>
-        <div class="RewardRow">
-            <span class="num">+122</span>
-            <span class="time">2022/02/22 12:22:33</span>
+        <div class="RewardRow" v-for="item in RewardList">
+            <span class="num">+{{ item.rewardArb }}</span>
+            <span class="time">{{ dateFormat('YYYY/mm/dd HH:MM:SS',new Date(item.createTime)) }}</span>
         </div>
     </div>
   </div>
