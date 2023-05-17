@@ -30,7 +30,7 @@ onMounted(()=>{
             <div class="totalLabel">Total rewards paid</div>
             <div class="totalValue" v-if="Info">${{ Info.totalReward }}</div>
           </div>
-          <div class="TotalItem">
+          <div class="TotalItem dn425">
             <div class="totalLabel">Stakers</div>
             <div class="totalValue" v-if="Info">{{ Info.userCount }}</div>
           </div>
@@ -196,9 +196,15 @@ onMounted(()=>{
       margin: 9rem 0 6.5rem;
       justify-content: space-around;
       @media (max-width:425px) {
-        flex-direction:column;
+        // flex-direction:column;
+      }
+      .dn425{
+        @media (max-width:425px) {
+          display: none;
+        }
       }
       .TotalItem {
+        text-align: center;
         @media (max-width:425px) {
           margin-bottom: 16px;
         }
@@ -395,6 +401,7 @@ onMounted(()=>{
         margin: auto;
         @media (max-width:768px) {
           width: 65rem;
+          flex-direction: column;
         }
         @media (max-width:425px) {
           width: 75rem;
@@ -408,18 +415,13 @@ onMounted(()=>{
             box-shadow: 0px 4px 10px 0px rgba(0,0,0,0.15);
             border-radius: 1.4rem;
             background: #FFFFFF;
-            padding: 2rem 2rem 2.5rem;
+            padding: 2.5rem 2rem 2.5rem;
             box-sizing: border-box;
             display: flex;
             align-items: center;
-            @media (max-width:1024px) {
-              height: 8rem;
-            }
-            @media (max-width:650px) {
-              height: 10rem;
-            }
-            @media (max-width:500px) {
-              height: 14rem;
+            @media (max-width:768px) {
+                margin-bottom: 20px;
+                padding: 3rem 2rem 3rem;
             }
             .icon{
               width: 2.7rem;

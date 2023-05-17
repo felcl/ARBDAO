@@ -47,9 +47,9 @@ const Connect=()=>{
           <img :src="route.path === '/' ? HomeActiveIcon:HomeIcon" alt="">
           <span>HOME</span>
       </div>
-      <div class="MenuItem" @click="goPath('/Stake')">
-          <img :src="route.path === '/Stake' ? StakeActiveIcon:StakeIcon" alt="">
-          <span>STAKE</span>
+      <div class="MenuItem" @click="goPath('/Dao')">
+          <img :src="route.path === '/Dao' ? StakeActiveIcon:StakeIcon" alt="">
+          <span>DAO</span>
       </div>
       <div class="MenuItem" @click="goPath('/Rewares')">
           <img :src="route.path === '/Rewares' ? RewardsActive:Rewards" alt="">

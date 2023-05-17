@@ -4,6 +4,7 @@ import { useStore } from 'vuex'
 import { AddrHandle } from '../utils/tool'
 import {connect} from '../web3'
 import {useRouter,useRoute} from 'vue-router'
+import { useI18n } from "vue-i18n";
 import HomeActiveIcon from '../assets/Home/HomeActiveIcon.png'
 import HomeIcon from '../assets/Home/HomeIcon.png'
 import blackHomeIcon from '../assets/Home/blackHomeIcon.png'
@@ -17,9 +18,12 @@ import logo from '../assets/Home/logo.png'
 import blackLogo from '../assets/Home/blackLogo.png'
 import blackMenu from '../assets/Home/blackMenu.png'
 import Menu from '../assets/Home/menu.png'
+import Lang from '../assets/Home/lang.png'
+import blackLang from '../assets/Home/blackLang.png'
 const router = useRouter()
 const route = useRoute()
 const store = useStore()
+const { locale } = useI18n();
 let address = computed(()=>{
   return store.state.address
 })
@@ -46,6 +50,10 @@ const Connect=()=>{
 const leftMenuSwitch = () => {
   store.commit("SETLEFTMENU", !store.state.leftMenu);
 };
+const changeLang = (val) => {
+  locale.value = val;
+  localStorage.setItem("lang", val);
+};
 onMounted(()=>{
   console.log(route.path)
 })
@@ -58,7 +66,7 @@ onMounted(()=>{
       <div class="menu">
         <div :class="['menuItem',{'blackFont':route.path !== '/'}]"  @click="goPath('/')">
           <img :src="IconPath('/',HomeActiveIcon,HomeIcon,blackHomeIcon)" alt="">
-          <span>HOME</span>
+          <span>{{ $t("Home") }}</span>
         </div>
         <div :class="['menuItem',{'blackFont':route.path !== '/'}]" @click="goPath('/Dao')">
           <img :src="IconPath('/Dao',StakeActiveIcon,StakeIcon,blackStakeIcon)" alt="">
@@ -77,22 +85,23 @@ onMounted(()=>{
         </div>
       </div>
       <el-dropdown trigger="click">
-        <img src="../assets/Home/lang.png" alt="">
+        <img :src="route.path === '/' ? Lang:blackLang" alt="">
         <template #dropdown>
           <el-dropdown-menu>
-            <el-dropdown-item>简体中文</el-dropdown-item>
+            <el-dropdown-item @click="changeLang('zh')">简体中文</el-dropdown-item>
             <el-dropdown-item>한국어</el-dropdown-item>
-            <el-dropdown-item>English</el-dropdown-item>
+            <el-dropdown-item @click="changeLang('en')">English</el-dropdown-item>
           </el-dropdown-menu>
         </template>
       </el-dropdown>
+      <img
+        class="MenuIcon"
+        @click="leftMenuSwitch"
+        :src="route.path === '/' ? Menu:blackMenu"
+        alt=""
+      />
     </div>
-    <img
-      class="MenuIcon"
-      @click="leftMenuSwitch"
-      :src="route.path === '/' ? Menu:blackMenu"
-      alt=""
-    />
+
   </div>
 </template>
 

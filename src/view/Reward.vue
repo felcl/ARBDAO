@@ -61,7 +61,7 @@ onMounted(()=>{
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
-    // align-items: center;
+    align-items: center;
     min-height: 100vh;
     @media (max-width:767px) {
         padding-top: 20rem;
@@ -82,7 +82,7 @@ onMounted(()=>{
             font-size: 3rem;
         }
         @media (max-width:425px) {
-            font-size: 4rem;
+            font-size: 5rem;
         }
     }
     .StakeSubTitle{
@@ -96,14 +96,18 @@ onMounted(()=>{
         }
     }
     .RewardBox{
-        width: 37.5rem;
-        margin: auto;
+        width: 750px;
+        // margin: auto;
         background: #FFFFFF;
-        height: 808px;
+        height: 500px;
         box-shadow: 0px 3px 20px 0px rgba(0,0,0,0.1);
-        border-radius: 50px;
+        border-radius: 2.5rem;
         padding: 50px;
         box-sizing: border-box;
+        @media (max-width:768px) {
+            width: 95%;
+            padding: 20px;
+        }
         .RewardRow{
             display: flex;
             justify-content: space-between;

@@ -19,7 +19,7 @@
             font-size: 3rem;
         }
         @media (max-width:425px) {
-            font-size: 4rem;
+            font-size: 5rem;
         }
     }
     .Tabs{
@@ -32,11 +32,20 @@
         margin-bottom: 30px;
         display: flex;
         justify-content: space-between;
+        // transform: scale(0.7);
+        @media (max-width:425px) {
+            width: 226px;
+            height: 48px;
+        }
         .tabItem{
             width: 118px;
             height: 54px;
             color: rgba(61,61,61,0.8);
             border-radius: 32px;
+            @media (max-width:425px) {
+                width:82px;
+                height: 38px;
+            }
         }
         .active{
             background: #00A0E9;
@@ -66,7 +75,10 @@
             width: 80rem;
         }
         @media (max-width:425px) {
-            width: 70rem;
+            width: 75rem;
+        }
+        @media (max-width:375px) {
+            width: 85rem;
         }
         .InfoRow{
             // height: 10rem;
@@ -116,7 +128,7 @@
                 }
                 .Team{
                     cursor: pointer;
-                    padding:5px 5px;
+                    padding:5px 10px;
                     // width: 4.75rem;
                     // height: 1.5rem;
                     background: #FFFFFF;
@@ -143,6 +155,9 @@
             flex-direction: column;
             justify-content: space-between;
             box-sizing: border-box;
+            @media (max-width:425px) {
+                padding: 25px 25px;
+            }
             .balanceRow{
                 display: flex;
                 align-items: center;
@@ -180,15 +195,12 @@
             .Withdraw{
                 font-size: 1rem;
                 font-weight: 400;
-                width: 8.9rem;
+                padding: 5px 10px;
+                // width: 8.9rem;
                 color: #fff;
-                height: 2.8rem;
+                // height: 2.8rem;
                 background: linear-gradient(360deg, #299FEF 0%, #69C0FA 100%);
                 border-radius: 0.6rem;
-                @media (max-width:425px) {
-                    width: 15rem;
-                    height: 5rem;
-                }
             }
         }
     }
@@ -202,12 +214,18 @@
             width: 80rem;
         }
         @media (max-width:425px) {
-            width: 70rem;
+            width: 75rem;
+        }
+        @media (max-width:375px) {
+            width: 85rem;
         }
         .labelName{
             font-weight: 500;
             color: #262626;
             font-size: 30px;
+            @media (max-width:768px) {
+                font-size: 20px;
+            }
         }
         .more{
             font-weight: 400;
@@ -219,14 +237,18 @@
         width: 750px;
         background: #FFFFFF;
         box-shadow: 0px 3px 20px 0px rgba(0,0,0,0.1);
-        border-radius: 50px;
+        border-radius: 2.5rem;
         padding: 60px 50px;
         box-sizing: border-box;
         @media (max-width:768px) {
             width: 80rem;
+            padding: 30px 25px;
         }
         @media (max-width:425px) {
-            width: 70rem;
+            width: 75rem;
+        }
+        @media (max-width:375px) {
+            width: 85rem;
         }
         .RewardRow:nth-last-child(1){
             margin-bottom: 0;
@@ -239,11 +261,17 @@
                 font-size: 20px;
                 font-weight: 400;
                 color: #3D3D3D;
+                @media (max-width:768px) {
+                    font-size: 16px;
+                }
             }
             .totalNum{
                 font-weight: 500;
                 font-size: 20px;
                 color: #3D3D3D;
+                @media (max-width:768px) {
+                    font-size: 16px;
+                }
             }
         }
         .RewardRow{

@@ -5,6 +5,7 @@ import Axios from '../axios'
 import { useStore } from "vuex";
 import { contract } from '../web3'
 import BigNumber from "big.js";
+import { NumSplic } from '../utils/tool'
 import { contractAddress ,TokenConfig} from '../config'
 BigNumber.NE = -40;
 BigNumber.PE = 40;
@@ -13,12 +14,16 @@ const svipList = ref([])
 const arbIndex = ref(0)
 const svipIndex = ref(0)
 const daoAmount = ref(0)
+const arbRate = ref(0)
+const arbPrice = ref(0)
 const totalRewardAmount = ref(0)
 const inAllowance = ref(false)
 const inSVIPAllowance = ref(false)
 const inSubscribe = ref(false)
 const inSVIPSubscribe = ref(false)
 const USDTAllowance = ref(new BigNumber(0))
+const USDTBalance = ref(new BigNumber(0))
+const ARBBalance = ref(new BigNumber(0))
 const store = useStore();
 const address = computed(() => {
   return store.state.address;
@@ -29,7 +34,13 @@ watch(
     if (address) {
       contract.USDT.methods.balanceOf(address).call().then(res=>{
         let amount = new BigNumber(res).div(10 ** 6)
+        USDTBalance.value = amount
         console.log(amount,"获取用户余额")
+      })
+      contract.ARB.methods.balanceOf(address).call().then(res=>{
+        let amount = new BigNumber(res).div(10 ** 6)
+        ARBBalance.value = amount
+        console.log(amount,"获取用户ARB余额")
       })
       getAllowance(contractAddress.Dao)
     }
@@ -94,7 +105,7 @@ function approve(type){
     }
   })
 }
-function subscribe(id,type){
+function subscribe(id,type,buyAmount){
   if(type === 'vip' && inSubscribe.value){
       return ElNotification({
         title: 'Warning',
@@ -111,8 +122,23 @@ function subscribe(id,type){
     }
     if(type === 'vip'){
       inSubscribe.value = true;
-    }else{
+    }
+    if(type === 'svip'){
       inSVIPSubscribe.value = true;
+    }
+    if(USDTBalance.value.lt(buyAmount)){
+      return ElNotification({
+        title: 'Warning',
+        message: '余额不足',
+        type: 'warning',
+      })
+    }
+    if(USDTAllowance.value.lt(buyAmount)){
+      return ElNotification({
+        title: 'Warning',
+        message: '请授权',
+        type: 'warning',
+      })
     }
   console.log(id)
   Axios.post('/dao/stake',{
@@ -121,8 +147,13 @@ function subscribe(id,type){
   }).then(res=>{
     if(res.data.code === 200){
       return contract.Dao.methods.stake(res.data.data).send({from:address.value})
+    }else{
+      ElNotification({
+        title: 'Warning',
+        message: res.data.msg,
+        type: 'warning',
+      })
     }
-    console.log(res,"获取申购加密数据")
   }).then(res=>{
     console.log(res,'申购结果')
   }).finally(()=>{
@@ -138,6 +169,10 @@ onMounted(()=>{
     if(res.data.code === 200){
       arbsList.value = res.data.data.arbsList
       svipList.value = res.data.data.svipList
+      arbRate.value = res.data.data.arbRate
+      arbPrice.value = res.data.data.arbPrice
+      totalRewardAmount.value = res.data.data.totalRewardAmount
+      daoAmount.value = res.data.data.daoAmount
     }
     console.log(res,"获取配置信息")
   })
@@ -168,14 +203,14 @@ onMounted(()=>{
           <div>
             <div class="name">OP</div>
             <div class="priceInfo">
-              <span class="price">$ 2.1856</span>
-              <span class="pro">4.7%</span>
+              <span class="price">$ {{ arbPrice }}</span>
+              <span class="pro">{{ arbRate }}%</span>
             </div>
           </div>
         </div>
         <div class="Right">
-          <span>0.00</span>
-          <span>$ 0.00</span>
+          <span>{{ NumSplic(ARBBalance,2,true) }}</span>
+          <span>$ {{ NumSplic(ARBBalance * arbPrice,2,true)}}</span>
         </div>
       </div>
       <div class="subscribe">
@@ -190,7 +225,7 @@ onMounted(()=>{
           </svg>
           approve
         </div>
-        <div class="Submit flexCenter" v-else @click="subscribe(arbsList[arbIndex].id,'vip')">
+        <div class="Submit flexCenter" v-else @click="subscribe(arbsList[arbIndex].id,'vip',arbsList[arbIndex].buyAmount)">
           <svg viewBox="25 25 50 50" v-if="inSubscribe">
             <circle cx="50" cy="50" r="20"></circle>
           </svg>
@@ -199,7 +234,7 @@ onMounted(()=>{
       </div>
     </div>
     <div class="subscribe independence">
-      <div class="subscribeTitle">A币申购</div>
+      <div class="subscribeTitle">SVIP币申购</div>
       <div class="subscribeLabel">申购类型</div>
       <div class="subscribeRow">
         <div class="item flexCenter" :class="{Active:svipIndex === index}" v-for="(item,index) in svipList" @click="svipIndex = index">{{item.buyAmount}}A</div>
@@ -210,7 +245,7 @@ onMounted(()=>{
           </svg>
           approve
       </div>
-      <div class="Submit flexCenter" v-else @click="subscribe(svipList[svipIndex].id,'svip')">
+      <div class="Submit flexCenter" v-else @click="subscribe(svipList[svipIndex].id,'svip',svipList[svipIndex].buyAmount)">
         <svg viewBox="25 25 50 50" v-if="inSVIPSubscribe">
             <circle cx="50" cy="50" r="20"></circle>
           </svg>
@@ -237,7 +272,7 @@ onMounted(()=>{
       font-size: 3rem;
     }
     @media (max-width: 425px) {
-      font-size: 4rem;
+      font-size: 5rem;
     }
   }
   .StakeSubTitle {
@@ -259,6 +294,9 @@ onMounted(()=>{
       align-items: center;
       @media (max-width: 768px) {
         margin: 40px 33px 35px;
+      }
+      @media (max-width:425px) {
+        margin: 25px 20px 20px;
       }
       .totalItem {
         .label {
@@ -303,6 +341,9 @@ onMounted(()=>{
       justify-content: space-between;
       @media (max-width: 768px) {
         margin: 0 33px 62px;
+      }
+      @media (max-width:425px) {
+        margin: 0 20px 10px;
       }
       .Left {
         display: flex;
@@ -350,11 +391,14 @@ onMounted(()=>{
     margin: 20px auto 0;
     padding: 70px 80px 50px;
     box-sizing: border-box;
-    border-radius: 50px;
+    border-radius: 2.5rem;
     background: #ffffff;
     box-shadow: 0px 3px 20px 0px rgba(0, 0, 0, 0.1);
     @media (max-width: 768px) {
       padding: 35px 40px 25px;
+    }
+    @media (max-width: 425px) {
+      padding: 20px 20px 15px;
     }
     @media (max-width: 1024px) {
       width: 100%;
@@ -365,6 +409,9 @@ onMounted(()=>{
       color: #262626;
       font-size: 30px;
       text-align: center;
+      @media (max-width:425px) {
+        font-size: 24px;
+      }
     }
     .subscribeLabel {
       font-weight: 400;
@@ -383,9 +430,12 @@ onMounted(()=>{
         border: 1px solid #00a0e9;
         border-radius: 12px;
         font-weight: 400;
-
+        margin-right: 15px;
         color: #00a0e9;
         font-size: 20px;
+      }
+      .item:nth-last-child(1){
+        margin-right: 0;
       }
       .Active {
         background: linear-gradient(360deg, #299fef 0%, #69c0fa 100%);
@@ -397,7 +447,7 @@ onMounted(()=>{
       background: linear-gradient(360deg, #299fef 0%, #69c0fa 100%);
       height: 56px;
       border-radius: 12px;
-      margin-top: 60px;
+      margin: 40px auto 20px;
       color: #fff;
     }
   }
@@ -418,6 +468,7 @@ svg {
   width: 1.5em;
   transform-origin: center;
   animation: rotate 2s linear infinite;
+  margin-right: 10px;
 }
 
 circle {

@@ -21,6 +21,7 @@ const Withdrawallist = ref([]);
 const WithdrawalTotal = ref(0);
 const rewardTotalAmount = ref(0);
 const isBind = ref(0);
+const svipLevel = ref(0);
 const stakeTotalAmount = ref(0);
 const amount = ref(0);
 const goPath=(path)=>{
@@ -82,6 +83,13 @@ watch(token,(token)=>{
         isBind.value = res.data.data
     }
     console.log(res,"检测是否绑定上级地址")
+  })
+  Axios.get('/uUser/userDetail').then(res=>{
+    if(res.data.code === 200){
+      svipLevel.value = res.data.data.svipLevel
+        // isBind.value = res.data.data
+    }
+    console.log(res,"用户详情")
   })
  }
 },{
@@ -189,7 +197,7 @@ function Withdraw(){
             src="../assets/Home/copy.png"
             alt=""
           />
-          <img src="../assets/Home/SVIP.png" class="svip" alt="" />
+          <img src="../assets/Home/SVIP.png" class="svip" v-if="svipLevel" alt="" />
         </div>
         <div class="link">
           <span
