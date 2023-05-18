@@ -32,7 +32,7 @@ function goPath(path){
             <div>提现记录</div>
             <div></div>
         </div>
-        <div class="subTitle">Track your MATIC staking rewards with ARB</div>
+        <!-- <div class="subTitle">Track your MATIC staking rewards with ARB</div> -->
         <div class="RecordList">
             <div class="RecordItem" v-for="item in RecordList">
                 <div class="address">{{ AddrHandle(item.userAddress,6,6) }}</div>

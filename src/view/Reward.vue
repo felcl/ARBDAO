@@ -40,7 +40,7 @@ onMounted(()=>{
         <img src="" alt="">
         <div>
             <div class="StakeTitle">{{ type }} Reward</div>
-            <div class="StakeSubTitle">Track your MATIC staking rewards with ARB</div>
+            <!-- <div class="StakeSubTitle">Track your MATIC staking rewards with ARB</div> -->
         </div>
         <div>
         </div>

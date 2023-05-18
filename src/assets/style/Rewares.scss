@@ -164,6 +164,12 @@
                 justify-content: space-between;
                 width: 100%;
                 .balanceNum{
+                    display: flex;
+                    align-items: center;
+                    img{
+                        width: 17px;
+                        margin-right: 14px;
+                    }
                     span{
                         color: #000;
                         font-size: 20px;

@@ -159,7 +159,19 @@ function Withdraw(){
             contract.Dao.methods.drawToken(res.data.data).send({from:address.value}).then(res=>{
                 console.log(res,"提现")
             })
+        }else{
+          return ElNotification({
+            title: 'Warning',
+            message: res.data.msg,
+            type: 'warning',
+          })
         }
+    },()=>{
+      return ElNotification({
+            title: 'Warning',
+            message: "提现失败",
+            type: 'warning',
+          })
     })
 }
 </script>
@@ -167,7 +179,7 @@ function Withdraw(){
 <template>
   <div class="Rewares">
     <div class="StakeTitle">REWARDS</div>
-    <div class="StakeSubTitle">Track your MATIC staking rewards with ARB</div>
+    <!-- <div class="StakeSubTitle">Track your MATIC staking rewards with ARB</div> -->
     <div class="Tabs">
       <div
         class="tabItem flexCenter"
@@ -215,7 +227,8 @@ function Withdraw(){
       <div class="balance">
         <div class="balanceRow">
           <div class="balanceNum">
-            <span class="tokenName">A币</span>
+            <img src="../assets/Home/tokenIcon.png" alt="">
+            <span class="tokenName">Arbitrum </span>
             <span class="tokenNum">{{ amount ? amount : 0 }}</span>
           </div>
           <div class="Withdraw flexCenter" @click="Withdraw">Withdraw</div>
@@ -234,7 +247,7 @@ function Withdraw(){
     </div>
     <template v-if="tabVal === 'Reward'">
       <div class="LabelRow">
-        <span class="labelName">A币 Reward</span>
+        <span class="labelName">Arbitrum Reward</span>
         <span class="more" @click="goPath('/Reward?type=A')">more></span>
       </div>
       <div class="RewardBox">

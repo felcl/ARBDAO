@@ -16,7 +16,7 @@ onMounted(()=>{
   <div class="bgColor">
     <div class="Home">
       <div class="firstScreen">
-        <div class="title">Liquidity for staked tokens</div>
+        <div class="title">Arbitrum Foundation For Staked Tokens</div>
         <div class="subTitle">
           Simplified and secure participation in staking
         </div>
@@ -30,10 +30,10 @@ onMounted(()=>{
             <div class="totalLabel">Total rewards paid</div>
             <div class="totalValue" v-if="Info">${{ Info.totalReward }}</div>
           </div>
-          <div class="TotalItem dn425">
+          <!-- <div class="TotalItem dn425">
             <div class="totalLabel">Stakers</div>
             <div class="totalValue" v-if="Info">{{ Info.userCount }}</div>
-          </div>
+          </div> -->
         </div>
         <!-- <div class="FriendlyLinks">
                   <a href="">
@@ -52,19 +52,17 @@ onMounted(()=>{
       </div>
       <div class="CenterTitle">Subscribe</div>
       <div class="CenterSubTitle">
-        Lido lets you stake tokens from many networks. Choose a network below to
-        get started.
+        ArbDao lets you stake tokens from many networks. Choose a network below to get started.
       </div>
       <div class="publicize">
         <div class="publicizeMain">
           <div class="Icon">
-            <div class="iconBox"></div>
-            <span>Polygon</span>
+            <img class="iconBox" src="../assets/Home/tokenIcon.png" alt="">
+            <span>Arbitrum</span>
           </div>
           <div class="Info">
             <div class="text">
-              Stake MATIC tokens to support network decentralisation and watch
-              your stMATIC value grow. Staking does not mean locking anymore.
+              Stake Arbitrum tokens to support network decentralisation and watch your Arbitrum value grow. Staking does not mean locking anymore.
             </div>
             <div class="data">
               <div class="APR">
@@ -83,19 +81,17 @@ onMounted(()=>{
       </div>
       <div class="CenterTitle">SVIP</div>
       <div class="CenterSubTitle">
-        Lido lets you stake tokens from many networks. Choose a network below to
-        get started.
+        ArbDao lets you stake tokens from many networks. Choose a network below to get started.
       </div>
       <div class="publicize">
         <div class="publicizeMain">
           <div class="Icon">
-            <div class="iconBox"></div>
-            <span>Polygon</span>
+            <img class="iconBox" src="../assets/Home/tokenIcon.png" alt="">
+            <span>Arbitrum</span>
           </div>
           <div class="Info">
             <div class="text">
-              Stake MATIC tokens to support network decentralisation and watch
-              your stMATIC value grow. Staking does not mean locking anymore.
+              Stake Arbitrum tokens to support network decentralisation and watch your Arbitrum value grow. Staking does not mean locking anymore.
             </div>
             <div class="data">
               <div class="APR">
@@ -115,10 +111,15 @@ onMounted(()=>{
       <div class="join">
         <div class="CenterTitle">Join our community</div>
         <div class="CenterSubTitle">
-          Lido lets you stake tokens from many networks. Choose a network below
-          to get started.
+          Learn more about ArbDao, chat with us and have your say in the future of the ArbDao ecosystem
         </div>
-        <div class="joinBanner"></div>
+        <div class="joinBanner">
+          <img src="../assets/Home/discord-logo.png" alt="">
+          <div>
+              <div class="bannerMain">AIGPT WHITE PAPER</div>
+              <div class="bannerSub">Join the community and ask questions</div>
+            </div>
+        </div>
         <div class="contactRow">
             <div class="contactItem">
                 <div class="icon">
@@ -289,9 +290,6 @@ onMounted(()=>{
         }
         .iconBox {
           width: 64px;
-          height: 64px;
-          border-radius: 50%;
-          background: #eff2f6;
         }
         span {
           font-weight: 500;
@@ -381,6 +379,32 @@ onMounted(()=>{
         height: 11.2rem;
         background: url('../assets/Home/joinBanner.png') no-repeat 0 0 / 100% 100%;
         margin:55px auto 35px;
+        display: flex;
+        align-items: center;
+        padding-left: 7rem;
+        box-sizing: border-box;
+        color: #fff;
+        img{
+          margin-right: 20px;
+          @media (max-width:768px) {
+            width: 38px;
+          }
+        }
+        .bannerMain{
+          font-size: 36px;
+          @media (max-width:1024px) {
+            font-size: 26px;
+          }
+          @media (max-width:768px) {
+            font-size: 18px;
+          }
+        }
+        .bannerSub{
+          font-size: 14px;
+          @media (max-width:768px) {
+            font-size: 12px;
+          }
+        }
         @media (max-width:768px) {
           width: 65rem;
           height: 14rem;

@@ -140,23 +140,37 @@ function subscribe(id,type,buyAmount){
         type: 'warning',
       })
     }
-  console.log(id)
   Axios.post('/dao/stake',{
     id,
     userAddress:address.value
   }).then(res=>{
     if(res.data.code === 200){
-      return contract.Dao.methods.stake(res.data.data).send({from:address.value})
+      contract.Dao.methods.stake(res.data.data).send({from:address.value}).then(res=>{
+          ElNotification({
+            title: 'Success',
+            message: '申购成功',
+            type: 'success',
+          })
+      }).finally(()=>{
+        if(type === 'vip'){
+          inSubscribe.value = false;
+        }else{
+          inSVIPSubscribe.value = false;
+        }
+      })
     }else{
+      if(type === 'vip'){
+        inSubscribe.value = false;
+      }else{
+        inSVIPSubscribe.value = false;
+      }
       ElNotification({
         title: 'Warning',
         message: res.data.msg,
         type: 'warning',
       })
     }
-  }).then(res=>{
-    console.log(res,'申购结果')
-  }).finally(()=>{
+  },()=>{
     if(type === 'vip'){
       inSubscribe.value = false;
     }else{
@@ -182,26 +196,24 @@ onMounted(()=>{
 <template>
   <div class="Stake">
     <div class="StakeTitle">DAO</div>
-    <div class="StakeSubTitle">Stake USDT and receive A while staking.</div>
+    <!-- <div class="StakeSubTitle">Stake USDT and receive A while staking.</div> -->
     <div class="StakeItem">
       <div class="totalNetwork">
         <div class="totalItem">
-          <div class="label">全网收益总量</div>
+          <div class="label">Total revenue of the whole network</div>
           <div class="number">{{ totalRewardAmount }}</div>
         </div>
         <div class="separate"></div>
         <div class="totalItem">
-          <div class="label">DAO 国库</div>
+          <div class="label">DAO Treasury</div>
           <div class="number">{{ daoAmount }}</div>
         </div>
       </div>
       <div class="Increase">
         <div class="Left">
-          <div class="Icon">
-            <img src="" alt="" />
-          </div>
+          <img class="Icon" src="../assets/Home/tokenIcon.png" alt="" />
           <div>
-            <div class="name">OP</div>
+            <div class="name">Arbitrum</div>
             <div class="priceInfo">
               <span class="price">$ {{ arbPrice }}</span>
               <span class="pro">{{ arbRate }}%</span>
@@ -214,8 +226,8 @@ onMounted(()=>{
         </div>
       </div>
       <div class="subscribe">
-        <div class="subscribeTitle">A币申购</div>
-        <div class="subscribeLabel">申购类型</div>
+        <div class="subscribeTitle">Arbitrum Purchase</div>
+        <div class="subscribeLabel">Subscription type</div>
         <div class="subscribeRow">
           <div class="item flexCenter" :class="{Active:arbIndex === index}" v-for="(item,index) in arbsList" @click="arbIndex = index">{{item.buyAmount}}A</div>
         </div>
@@ -234,8 +246,8 @@ onMounted(()=>{
       </div>
     </div>
     <div class="subscribe independence">
-      <div class="subscribeTitle">SVIP币申购</div>
-      <div class="subscribeLabel">申购类型</div>
+      <div class="subscribeTitle">SVIP Purchase</div>
+      <div class="subscribeLabel">Subscription type</div>
       <div class="subscribeRow">
         <div class="item flexCenter" :class="{Active:svipIndex === index}" v-for="(item,index) in svipList" @click="svipIndex = index">{{item.buyAmount}}A</div>
       </div>
@@ -290,8 +302,8 @@ onMounted(()=>{
     .totalNetwork {
       display: flex;
       justify-content: space-between;
+      // align-items: center;
       margin: 80px 67px 70px;
-      align-items: center;
       @media (max-width: 768px) {
         margin: 40px 33px 35px;
       }
@@ -299,6 +311,10 @@ onMounted(()=>{
         margin: 25px 20px 20px;
       }
       .totalItem {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content:space-between;
         .label {
           font-weight: 400;
           color: #e0f1ff;
@@ -323,6 +339,8 @@ onMounted(()=>{
       .separate {
         border-left: 1px solid #fff;
         height: 66px;
+        margin: 0 50px;
+        align-self: center;
       }
     }
     display: flex;
@@ -374,13 +392,9 @@ onMounted(()=>{
       }
       .Icon {
         width: 52px;
-        height: 52px;
         margin-right: 28px;
-        border-radius: 50%;
-        background: #ff0000;
         @media (max-width: 768px) {
           width: 35px;
-          height: 35px;
         }
       }
     }
