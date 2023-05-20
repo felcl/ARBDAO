@@ -2,8 +2,9 @@
 import { onMounted , watch, computed , ref} from 'vue'
 import { useStore } from 'vuex'
 import Axios from './axios'
-import {init} from './web3'
+import {init,changeNetwork} from './web3'
 import Layout from './Layout/Layout.vue'
+import {chainConfig} from './config'
 const store = useStore()
 const address = computed(() => {
   return store.state.address;
@@ -28,15 +29,26 @@ watch(
     immediate: true,
   }
 );
-onMounted(()=>{
+onMounted(async ()=>{
   document.body.style.setProperty('--el-border-radius-small', '20px')
     if(window.ethereum){
-      //用户账号初始化合约
-      init(address=>{
-        if(address)
-        store.commit('SETADDRESS',address)
-        console.log(address)
-      })
+      let chainId = await window.ethereum.request({ method: "eth_chainId" });
+      if(chainId !== chainConfig.chainId){
+        changeNetwork(()=>{
+          init(address=>{
+            if(address)
+            store.commit('SETADDRESS',address)
+            console.log(address)
+          })
+        })
+      }else{
+        //用户账号初始化合约
+        init(address=>{
+          if(address)
+          store.commit('SETADDRESS',address)
+          console.log(address)
+        })
+      }
       window.ethereum.on('connect', connectInfo=>{
         console.log("链接",connectInfo)
       });
@@ -44,9 +56,12 @@ onMounted(()=>{
       window.ethereum.on('chainChanged', info=>{
         // this.chainId = info
       });
-      window.ethereum.on('disconnect', res=>{
+      window.ethereum.on('disconnect', async res=>{
         console.log("链接已断开",res)
-        store.commit('SETADDRESS','')
+        let chainId = await window.ethereum.request({ method: "eth_chainId" });
+        if(chainId !== chainConfig.chainId){
+          store.commit('SETADDRESS','')
+        }
       });
       window.ethereum.on('accountsChanged', accounts=>{
         if(accounts[0]){

@@ -12,6 +12,8 @@ const router = useRouter()
 const store = useStore();
 const tabVal = ref("Reward");
 const centerDialogVisible = ref(false)
+const WithdrawVisible = ref(false)
+const WithdrawAmount = ref('')
 const InviteUrl = ref("");
 const InvitationLink = ref("");
 const AIncome = ref([]);
@@ -21,6 +23,7 @@ const Withdrawallist = ref([]);
 const WithdrawalTotal = ref(0);
 const rewardTotalAmount = ref(0);
 const isBind = ref(0);
+const inWithdraw = ref(false);
 const svipLevel = ref(0);
 const stakeTotalAmount = ref(0);
 const amount = ref(0);
@@ -146,21 +149,51 @@ function bind(){
   })
 }
 function Withdraw(){
-    // if(!amount.value){
-    //     return ElNotification({
-    //       title: 'Warning',
-    //       message: '暂无收益',
-    //       type: 'warning',
-    //   })
-    // }
+    if(!amount.value){
+        return ElNotification({
+          title: 'Warning',
+          message: '暂无收益',
+          type: 'warning',
+      })
+    }
+    inWithdraw.value = true
     Axios.post('/dao/draw').then(res=>{
         console.log(res)
         if(res.data.code === 200){
             contract.Dao.methods.drawToken(res.data.data).send({from:address.value}).then(res=>{
+                ElNotification({
+                    title: 'Success',
+                    message: '领取成功',
+                    type: 'success',
+                })
                 console.log(res,"提现")
+            }).finally(()=>{
+                inWithdraw.value = false
             })
+        }else{
+            ElNotification({
+                    title: 'Success',
+                    message: '领取失败',
+                    type: 'success',
+                })
+            inWithdraw.value = false
         }
+    },()=>{
+        inWithdraw.value = false
     })
+}
+function changeNumPut(event) {
+  let value = event.target.value;
+  if (/^\./g.test(value)) {
+    value = "0" + value;
+  }
+  let putVal = value.replace(/[^\d.]/g, "");
+  let putArr = putVal.split(".");
+  if (putArr[1] && putArr[1].length > accuracy) {
+    putArr[1] = putArr[1].slice(0, accuracy);
+  }
+  putVal = putArr.join(".");
+  WithdrawAmount.value = putVal;
 }
 </script>
 
@@ -218,7 +251,9 @@ function Withdraw(){
             <span class="tokenName">A币</span>
             <span class="tokenNum">{{ amount ? amount : 0 }}</span>
           </div>
-          <div class="Withdraw flexCenter" @click="Withdraw">Withdraw</div>
+          <div class="Withdraw flexCenter" @click="WithdrawVisible =true">
+            Withdraw
+          </div>
         </div>
         <div class="history">
           <div class="historyItem">
@@ -301,18 +336,47 @@ function Withdraw(){
       <input class="InvitationInput" placeholder="Please enter the bound link" v-model="InvitationLink" type="text">
       <div class="enter" @click="bind">Confirm</div>
     </el-dialog>
+    <el-dialog v-model="WithdrawVisible" title="Invitation binding" width="30%" center :close-on-press-escape="false">
+        <div class="balanceLabel">Balance：{{ amount }}</div>
+        <div class="InvitationInput">
+            <input placeholder="Please enter the withdrawal quantity" @input="changeNumPut" v-model="WithdrawAmount" type="text">
+            <span @click="WithdrawAmount = amount">MAX</span>
+        </div>
+      <div class="enter" @click="Withdraw">
+        <svg viewBox="25 25 50 50" v-if="inWithdraw">
+            <circle cx="50" cy="50" r="20"></circle>
+        </svg>
+        Confirm</div>
+    </el-dialog>
   </div>
 </template>
 <style scoped lang="scss">
+.balanceLabel{
+    color: #1D1D1D;
+    font-size: 12px;
+    margin-bottom: 12px;
+}
 .InvitationInput{
-width: 100%;
-height: 46px;
-background: #F5FBFF;
-border-radius: 14px;
-border: none;
-outline: none;
-padding: 0 25px;
-box-sizing: border-box;
+    width: 100%;
+    height: 46px;
+    background: #F5FBFF;
+    border-radius: 14px;
+    border: none;
+    outline: none;
+    padding: 0 25px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    span{
+        color: #1D1D1D;
+    }
+    input{
+        flex: 1;
+        border: none;
+        outline: none;
+        height: 100%;
+        background: none;
+    }
 }
 .enter{
   width: 100%;
@@ -325,5 +389,41 @@ box-sizing: border-box;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+svg {
+  width: 1.5em;
+  transform-origin: center;
+  animation: rotate 2s linear infinite;
+  margin-right: 10px;
+}
+
+circle {
+  fill: none;
+  stroke: #fc2f70;
+  stroke-width: 5;
+  stroke-dasharray: 1, 200;
+  stroke-dashoffset: 0;
+  stroke-linecap: round;
+  animation: dash 1.5s ease-in-out infinite;
+}
+
+@keyframes rotate {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes dash {
+  0% {
+    stroke-dasharray: 1, 200;
+    stroke-dashoffset: 0;
+  }
+  50% {
+    stroke-dasharray: 90, 200;
+    stroke-dashoffset: -35px;
+  }
+  100% {
+    stroke-dashoffset: -125px;
+  }
 }
 </style>

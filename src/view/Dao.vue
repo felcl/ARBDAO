@@ -198,7 +198,7 @@ onMounted(()=>{
       <div class="Increase">
         <div class="Left">
           <div class="Icon">
-            <img src="" alt="" />
+            <img src="../assets/Home/MenuIcon.png" alt="" />
           </div>
           <div>
             <div class="name">OP</div>
@@ -214,8 +214,8 @@ onMounted(()=>{
         </div>
       </div>
       <div class="subscribe">
-        <div class="subscribeTitle">A币申购</div>
-        <div class="subscribeLabel">申购类型</div>
+        <div class="subscribeTitle">Arbitrum Purchase</div>
+        <div class="subscribeLabel">Subscription type</div>
         <div class="subscribeRow">
           <div class="item flexCenter" :class="{Active:arbIndex === index}" v-for="(item,index) in arbsList" @click="arbIndex = index">{{item.buyAmount}}A</div>
         </div>
@@ -234,8 +234,8 @@ onMounted(()=>{
       </div>
     </div>
     <div class="subscribe independence">
-      <div class="subscribeTitle">SVIP币申购</div>
-      <div class="subscribeLabel">申购类型</div>
+      <div class="subscribeTitle">SVIP Purchase</div>
+      <div class="subscribeLabel">Subscription type</div>
       <div class="subscribeRow">
         <div class="item flexCenter" :class="{Active:svipIndex === index}" v-for="(item,index) in svipList" @click="svipIndex = index">{{item.buyAmount}}A</div>
       </div>
@@ -377,7 +377,10 @@ onMounted(()=>{
         height: 52px;
         margin-right: 28px;
         border-radius: 50%;
-        background: #ff0000;
+        // background: #ff0000;
+        img{
+          width: 100%;
+        }
         @media (max-width: 768px) {
           width: 35px;
           height: 35px;

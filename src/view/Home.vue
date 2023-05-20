@@ -16,7 +16,7 @@ onMounted(()=>{
   <div class="bgColor">
     <div class="Home">
       <div class="firstScreen">
-        <div class="title">Liquidity for staked tokens</div>
+        <div class="title">Arbitrum Foundation For Staked Tokens</div>
         <div class="subTitle">
           Simplified and secure participation in staking
         </div>
@@ -30,10 +30,10 @@ onMounted(()=>{
             <div class="totalLabel">Total rewards paid</div>
             <div class="totalValue" v-if="Info">${{ Info.totalReward }}</div>
           </div>
-          <div class="TotalItem dn425">
+          <!-- <div class="TotalItem dn425">
             <div class="totalLabel">Stakers</div>
             <div class="totalValue" v-if="Info">{{ Info.userCount }}</div>
-          </div>
+          </div> -->
         </div>
         <!-- <div class="FriendlyLinks">
                   <a href="">
@@ -52,19 +52,19 @@ onMounted(()=>{
       </div>
       <div class="CenterTitle">Subscribe</div>
       <div class="CenterSubTitle">
-        Lido lets you stake tokens from many networks. Choose a network below to
-        get started.
+        ArbDao lets you stake tokens from many networks. Choose a network below to get started.
       </div>
       <div class="publicize">
         <div class="publicizeMain">
           <div class="Icon">
-            <div class="iconBox"></div>
+            <div class="iconBox">
+              <img src="../assets/Home/MenuIcon.png" alt="">
+            </div>
             <span>Polygon</span>
           </div>
           <div class="Info">
             <div class="text">
-              Stake MATIC tokens to support network decentralisation and watch
-              your stMATIC value grow. Staking does not mean locking anymore.
+              Stake Arbitrum tokens to support network decentralisation and watch your Arbitrum value grow. Staking does not mean locking anymore.
             </div>
             <div class="data">
               <div class="APR">
@@ -83,19 +83,19 @@ onMounted(()=>{
       </div>
       <div class="CenterTitle">SVIP</div>
       <div class="CenterSubTitle">
-        Lido lets you stake tokens from many networks. Choose a network below to
-        get started.
+        ArbDao lets you stake tokens from many networks. Choose a network below to get started.
       </div>
       <div class="publicize">
         <div class="publicizeMain">
           <div class="Icon">
-            <div class="iconBox"></div>
+            <div class="iconBox">
+              <img src="../assets/Home/MenuIcon.png" alt="">
+            </div>
             <span>Polygon</span>
           </div>
           <div class="Info">
             <div class="text">
-              Stake MATIC tokens to support network decentralisation and watch
-              your stMATIC value grow. Staking does not mean locking anymore.
+              Stake Arbitrum tokens to support network decentralisation and watch your Arbitrum value grow. Staking does not mean locking anymore.
             </div>
             <div class="data">
               <div class="APR">
@@ -115,10 +115,15 @@ onMounted(()=>{
       <div class="join">
         <div class="CenterTitle">Join our community</div>
         <div class="CenterSubTitle">
-          Lido lets you stake tokens from many networks. Choose a network below
-          to get started.
+          Learn more about ArbDao, chat with us and have your say in the future of the ArbDao ecosystem
         </div>
-        <div class="joinBanner"></div>
+        <div class="joinBanner">
+          <img src="../assets/Home/book.png" alt="">
+            <div>
+              <div class="bannerMain">ABR in Discord</div>
+              <div class="bannerSub">Join the community and ask questions</div>
+            </div>
+        </div>
         <div class="contactRow">
             <div class="contactItem">
                 <div class="icon">
@@ -151,16 +156,22 @@ onMounted(()=>{
 }
 .Home {
   background: url("../assets/Home/bg.png") 0 0 / 100% no-repeat;
+
   min-height: 100vh;
   padding-top: 12.7rem;
   overflow: hidden;
   .firstScreen {
-    margin: 0 5rem;
+    margin: 0 auto;
     overflow: hidden;
+    max-width: 1400px;
     .title {
       font-size: 3.7rem;
       line-height: 1;
       color: #ffffff;
+      font-weight: bold;
+      @media (max-width: 1400px) {
+        text-align: center;
+      }
       @media (max-width: 425px) {
         font-size: 5rem;
       }
@@ -173,12 +184,16 @@ onMounted(()=>{
       @media (max-width: 1440px) {
         font-size: 2rem;
       }
+      @media (max-width: 1400px) {
+        text-align: center;
+      }
       @media (max-width: 768px) {
         font-size: 3rem;
       }
       @media (max-width: 425px) {
         margin-top: 4rem;
-        font-size: 4rem;
+        text-align: center;
+        // font-size: 4rem;
       }
     }
     .StakeBtn {
@@ -190,6 +205,14 @@ onMounted(()=>{
       font-weight: 500;
       color: #00a0e9;
       font-size: 18px;
+      @media (max-width: 1400px) {
+        margin:2.5rem auto 0;
+      }
+      @media (max-width: 425px) {
+        margin: 8rem 20px 0;
+        width: auto;
+        height: 38px;
+      }
     }
     .totalRow {
       display: flex;
@@ -259,7 +282,7 @@ onMounted(()=>{
   .publicize {
     width: 43.9rem;
     // min-height: 21.65rem;
-    background: #ffffff;
+    background: #FFFFFF;
     border-radius: 1.4rem;
     margin: 50px auto 0;
     overflow: hidden;
@@ -273,6 +296,7 @@ onMounted(()=>{
       width: 70rem;
     }
     @media (max-width:488px) {
+      padding-bottom: 20px;
       width: 75rem;
     }
     @media (max-width:388px) {
@@ -282,16 +306,24 @@ onMounted(()=>{
       display: flex;
       align-items: center;
       padding: 4.75rem 7rem 3.5rem;
+      @media (max-width:425px) {
+        flex-direction: column;
+        padding: 4.75rem 6rem 3.5rem;
+      }
       .Icon {
         margin-right: 7.25rem;
-        @media (max-width:388px) {
-          margin-right: 5rem;
+        @media (max-width:425px) {
+            margin-right: 0;
+            text-align: center;
         }
         .iconBox {
           width: 64px;
           height: 64px;
           border-radius: 50%;
-          background: #eff2f6;
+          margin-bottom: 18px;
+          img{
+            width: 100%;
+          }
         }
         span {
           font-weight: 500;
@@ -310,13 +342,16 @@ onMounted(()=>{
           display: flex;
           justify-content: space-between;
           margin-top: 2.5rem;
-          @media (max-width:768px) {
-            flex-direction: column;
+          @media (max-width:425px) {
+            justify-content: center;
           }
           .APR {
             display: flex;
             flex-direction: column;
             align-items: center;
+            @media (max-width:425px) {
+              flex: 1;
+            }
             .APRValue {
               font-weight: 500;
               color: #1fb51a;
@@ -330,17 +365,17 @@ onMounted(()=>{
           .separate {
             height: 50px;
             border-left: 1px solid #979797;
-            @media (max-width:768px) {
-              display: none;
-            }
           }
           .staked {
             display: flex;
             flex-direction: column;
             align-items: center;
+            @media (max-width:425px) {
+              flex: 1;
+            }
             .stakedValue {
               font-weight: 600;
-              color: #2c2c2c;
+              color: #2C2C2C;
               font-size: 20px;
             }
             span {
@@ -357,11 +392,17 @@ onMounted(()=>{
       // height: 56px;
       width: max-content;
       padding: 0.75rem 2.75rem;
-      background: #00a0e9;
+      background: #00A0E9;
       border-radius: 0.5rem;
       margin:0 auto 2.7rem;
       font-weight: 500;
       color: #ffffff;
+      @media (max-width:425px) {
+        font-size: 18px;
+        width: auto;
+        margin: 0 6rem;
+        height: 38px;
+      }
     }
   }
   .join {
@@ -381,6 +422,11 @@ onMounted(()=>{
         height: 11.2rem;
         background: url('../assets/Home/joinBanner.png') no-repeat 0 0 / 100% 100%;
         margin:55px auto 35px;
+        display: flex;
+        align-items: center;
+        padding-left: 7rem;
+        box-sizing: border-box;
+        color: #fff;
         @media (max-width:768px) {
           width: 65rem;
           height: 14rem;
@@ -392,6 +438,27 @@ onMounted(()=>{
         @media (max-width:375px) {
           width: 80rem;
           height: 23rem;
+        }
+        img{
+          margin-right: 20px;
+          @media (max-width:768px) {
+            width: 38px;
+          }
+        }
+        .bannerMain{
+          font-size: 36px;
+          @media (max-width:1024px) {
+            font-size: 26px;
+          }
+          @media (max-width:768px) {
+            font-size: 18px;
+          }
+        }
+        .bannerSub{
+          font-size: 14px;
+          @media (max-width:768px) {
+            font-size: 12px;
+          }
         }
     }
     .contactRow{

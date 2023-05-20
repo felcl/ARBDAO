@@ -16,3 +16,14 @@ export const TokenConfig = {
         decimals:6
     }
 }
+export const chainConfig = {
+    chainId: '0x66eed',
+    chainName: 'Arbitrum Goerli Testnet',
+    nativeCurrency: {
+        name: 'AGOR',
+        symbol: 'AGOR',
+        decimals: 18,
+    },
+    rpcUrls: ['https://endpoints.omniatech.io/v1/arbitrum/goerli/public'],
+    blockExplorerUrls: ['https://goerli-rollup-explorer.arbitrum.io'],
+}

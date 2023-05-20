@@ -1,7 +1,7 @@
 import axios from "axios";
 import {store} from "../store";
 export const Axios = axios.create({
-  baseURL: "http://112.74.191.212:8999/", //测试服务器
+  baseURL: "http://13.215.148.86:8999/", //测试服务器
   // timeout: 5000,
   headers: { "Content-Type": "application/json" },
 });

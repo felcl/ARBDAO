@@ -2,7 +2,7 @@
 import { computed ,onMounted} from 'vue'
 import { useStore } from 'vuex'
 import { AddrHandle } from '../utils/tool'
-import {connect} from '../web3'
+import {connect,changeNetwork} from '../web3'
 import {useRouter,useRoute} from 'vue-router'
 import { useI18n } from "vue-i18n";
 import HomeActiveIcon from '../assets/Home/HomeActiveIcon.png'
@@ -42,8 +42,10 @@ function IconPath(path,activeIcon,Icon,blackIcon){
 }
 const Connect=()=>{
   if(!address.value){
-    connect((address)=>{
-      store.commit('SETADDRESS',address)
+    changeNetwork(()=>{
+      connect((address)=>{
+        store.commit('SETADDRESS',address)
+      })
     })
   }
 }
