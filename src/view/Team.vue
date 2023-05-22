@@ -2,18 +2,18 @@
   <div class="Team">
     <div class="TeamHeader">
       <img src="../assets/Home/back.png" @click="router.go(-1)" alt="" />
-      <div>团队</div>
+      <div>Team</div>
       <div></div>
     </div>
     <div class="TeamInfo">
-      <div class="totalLabel">总人数</div>
+      <div class="totalLabel">Total</div>
       <div class="totalNum">{{ invitelist.length }}</div>
       <div class="InviteUrl">
         {{AddrHandle(inviteUrl , 11 , 11)}}
         <img src="../assets/Home/copy.png" alt="" />
       </div>
       <div class="recordList">
-        <div class="recordLabel">邀请记录</div>
+        <div class="recordLabel">Invitation Record</div>
         <div class="recordItem" v-for="item in invitelist">
           <span class="address">{{AddrHandle(item.userAddress,6,6)}}</span>
           <span>{{dateFormat('YYYY/mm/dd HH:MM:SS',new Date(item.createTime))}}</span>

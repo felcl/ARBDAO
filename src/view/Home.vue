@@ -57,14 +57,15 @@ onMounted(()=>{
       <div class="publicize">
         <div class="publicizeMain">
           <div class="Icon">
-            <div class="iconBox">
-              <img src="../assets/Home/MenuIcon.png" alt="">
-            </div>
-            <span>Polygon</span>
+            <!-- <div class="iconBox">
+              
+            </div> -->
+            <img src="../assets/Home/MenuIcon.png" alt="">
+            <span>Arbitrum</span>
           </div>
           <div class="Info">
             <div class="text">
-              Stake Arbitrum tokens to support network decentralisation and watch your Arbitrum value grow. Staking does not mean locking anymore.
+              Stake Arbitrum tokens to support network decentralisation and watch your Arbitrum value grow.
             </div>
             <div class="data">
               <div class="APR">
@@ -88,14 +89,12 @@ onMounted(()=>{
       <div class="publicize">
         <div class="publicizeMain">
           <div class="Icon">
-            <div class="iconBox">
-              <img src="../assets/Home/MenuIcon.png" alt="">
-            </div>
-            <span>Polygon</span>
+            <img src="../assets/Home/MenuIcon.png" alt="">
+            <span>Arbitrum</span>
           </div>
           <div class="Info">
             <div class="text">
-              Stake Arbitrum tokens to support network decentralisation and watch your Arbitrum value grow. Staking does not mean locking anymore.
+              Stake Arbitrum tokens to support network decentralisation and watch your Arbitrum value grow.
             </div>
             <div class="data">
               <div class="APR">
@@ -160,6 +159,9 @@ onMounted(()=>{
   min-height: 100vh;
   padding-top: 12.7rem;
   overflow: hidden;
+  @media (max-width:500px) {
+    padding-top: 25rem;
+  }
   .firstScreen {
     margin: 0 auto;
     overflow: hidden;
@@ -169,10 +171,11 @@ onMounted(()=>{
       line-height: 1;
       color: #ffffff;
       font-weight: bold;
+      font-family: bitte;
       @media (max-width: 1400px) {
         text-align: center;
       }
-      @media (max-width: 425px) {
+      @media (max-width: 500px) {
         font-size: 5rem;
       }
     }
@@ -190,8 +193,8 @@ onMounted(()=>{
       @media (max-width: 768px) {
         font-size: 3rem;
       }
-      @media (max-width: 425px) {
-        margin-top: 4rem;
+      @media (max-width: 500px) {
+        margin-top: 8rem;
         text-align: center;
         // font-size: 4rem;
       }
@@ -208,7 +211,7 @@ onMounted(()=>{
       @media (max-width: 1400px) {
         margin:2.5rem auto 0;
       }
-      @media (max-width: 425px) {
+      @media (max-width: 500px) {
         margin: 8rem 20px 0;
         width: auto;
         height: 38px;
@@ -218,17 +221,17 @@ onMounted(()=>{
       display: flex;
       margin: 9rem 0 6.5rem;
       justify-content: space-around;
-      @media (max-width:425px) {
+      @media (max-width:500px) {
         // flex-direction:column;
       }
       .dn425{
-        @media (max-width:425px) {
+        @media (max-width:500px) {
           display: none;
         }
       }
       .TotalItem {
         text-align: center;
-        @media (max-width:425px) {
+        @media (max-width:500px) {
           margin-bottom: 16px;
         }
         .totalLabel {
@@ -256,6 +259,7 @@ onMounted(()=>{
     margin-top: 3.5rem;
     font-size: 1.8rem;
     line-height: 1;
+    font-family: bitte;
     color: #ffffff;
     text-align: center;
     @media (max-width:1024px) {
@@ -264,7 +268,7 @@ onMounted(()=>{
     @media (max-width:768px) {
       font-size: 3.5rem;
     }
-    @media (max-width:425px) {
+    @media (max-width:500px) {
       font-size: 5rem;
     }
     @media (max-width:375px) {
@@ -306,20 +310,20 @@ onMounted(()=>{
       display: flex;
       align-items: center;
       padding: 4.75rem 7rem 3.5rem;
-      @media (max-width:425px) {
+      @media (max-width:500px) {
         flex-direction: column;
         padding: 4.75rem 6rem 3.5rem;
       }
       .Icon {
         margin-right: 7.25rem;
-        @media (max-width:425px) {
+        text-align: center;
+        @media (max-width:500px) {
             margin-right: 0;
             text-align: center;
         }
         .iconBox {
+          text-align: center;
           width: 64px;
-          height: 64px;
-          border-radius: 50%;
           margin-bottom: 18px;
           img{
             width: 100%;
@@ -342,14 +346,14 @@ onMounted(()=>{
           display: flex;
           justify-content: space-between;
           margin-top: 2.5rem;
-          @media (max-width:425px) {
+          @media (max-width:500px) {
             justify-content: center;
           }
           .APR {
             display: flex;
             flex-direction: column;
             align-items: center;
-            @media (max-width:425px) {
+            @media (max-width:500px) {
               flex: 1;
             }
             .APRValue {
@@ -370,7 +374,7 @@ onMounted(()=>{
             display: flex;
             flex-direction: column;
             align-items: center;
-            @media (max-width:425px) {
+            @media (max-width:500px) {
               flex: 1;
             }
             .stakedValue {
@@ -397,7 +401,7 @@ onMounted(()=>{
       margin:0 auto 2.7rem;
       font-weight: 500;
       color: #ffffff;
-      @media (max-width:425px) {
+      @media (max-width:500px) {
         font-size: 18px;
         width: auto;
         margin: 0 6rem;
@@ -408,7 +412,7 @@ onMounted(()=>{
   .join {
     background: #F5FBFF;
     padding: 58px 0 130px;
-    margin-top: 7.5rem;
+    margin-top: 2.5rem;
     .CenterTitle{
         color: #00A0E9;
     }
@@ -431,7 +435,7 @@ onMounted(()=>{
           width: 65rem;
           height: 14rem;
         }
-        @media (max-width:425px) {
+        @media (max-width:500px) {
           width: 75rem;
           height: 20rem;
         }
@@ -447,6 +451,7 @@ onMounted(()=>{
         }
         .bannerMain{
           font-size: 36px;
+          font-family: bitte;
           @media (max-width:1024px) {
             font-size: 26px;
           }
@@ -470,7 +475,7 @@ onMounted(()=>{
           width: 65rem;
           flex-direction: column;
         }
-        @media (max-width:425px) {
+        @media (max-width:500px) {
           width: 75rem;
         }
         @media (max-width:375px) {

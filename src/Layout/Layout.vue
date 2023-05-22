@@ -94,6 +94,9 @@ const Connect=()=>{
   border-radius: 11px;
   font-size: 0.9rem;
   line-height: 1rem;
+  @media (max-width:500px) {
+    font-size: 14px;
+  }
   .content{
     display: flex;
     justify-content: center;

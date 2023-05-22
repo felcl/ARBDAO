@@ -14,6 +14,9 @@ export const ABI  = {
 export const TokenConfig = {
     USDT:{
         decimals:6
+    },
+    ARB:{
+        decimals:18
     }
 }
 export const chainConfig = {

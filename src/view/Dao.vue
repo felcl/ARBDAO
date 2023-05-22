@@ -22,6 +22,7 @@ const inSVIPAllowance = ref(false)
 const inSubscribe = ref(false)
 const inSVIPSubscribe = ref(false)
 const USDTAllowance = ref(new BigNumber(0))
+const ARBAllowance = ref(new BigNumber(0))
 const USDTBalance = ref(new BigNumber(0))
 const ARBBalance = ref(new BigNumber(0))
 const store = useStore();
@@ -50,30 +51,30 @@ watch(
   }
 );
 const ifApprove = computed(() => {
-  if (arbsList.value[arbIndex.value] && USDTAllowance.value.gte(arbsList.value[arbIndex.value].buyAmount)) {
+  if (arbsList.value[arbIndex.value] && ARBAllowance.value.gte(arbsList.value[arbIndex.value].buyAmount)) {
     return false;
   }
   return true;
 });
 const ifSVIPApprove = computed(() => {
-  if (svipList.value[svipIndex.value] && USDTAllowance.value.gte(svipList.value[svipIndex.value].buyAmount)) {
+  if (svipList.value[svipIndex.value] && ARBAllowance.value.gte(svipList.value[svipIndex.value].buyAmount)) {
     return false;
   }
   return true;
 });
 function getAllowance(toAddress) {
-  contract.USDT.methods
+  contract.ARB.methods
     .allowance(address.value, toAddress)
     .call()
     .then((res) => {
-      res = new BigNumber(res).div(10 ** TokenConfig.USDT.decimals);
-      USDTAllowance.value = res
+      res = new BigNumber(res).div(10 ** TokenConfig.ARB.decimals);
+      ARBAllowance.value = res
       console.log(res.toString(),"授权额度");
     });
 }
 function approve(type){
   let amount = new BigNumber("999999")
-    .times(10 ** TokenConfig.USDT.decimals)
+    .times(10 ** TokenConfig.ARB.decimals)
     .toString();
     if(type === 'vip' && inAllowance.value){
       return ElNotification({
@@ -94,9 +95,9 @@ function approve(type){
     }else{
       inSVIPAllowance.value = true;
     }
-  contract.USDT.methods.approve(contractAddress.Dao,amount).send({from:address.value}).then(res=>{
-    res = new BigNumber(res.events.Approval.returnValues.value).div(10 ** TokenConfig.USDT.decimals);
-    USDTAllowance.value = res
+  contract.ARB.methods.approve(contractAddress.Dao,amount).send({from:address.value}).then(res=>{
+    res = new BigNumber(res.events.Approval.returnValues.value).div(10 ** TokenConfig.ARB.decimals);
+    ARBAllowance.value = res
   }).finally(()=>{
     if(type === 'vip'){
       inAllowance.value = false;
@@ -111,6 +112,7 @@ function subscribe(id,type,buyAmount){
         title: 'Warning',
         message: '请勿重复提交',
         type: 'warning',
+        duration:100000
       })
     }
     if(type === 'svip' && inSVIPSubscribe.value){
@@ -126,37 +128,51 @@ function subscribe(id,type,buyAmount){
     if(type === 'svip'){
       inSVIPSubscribe.value = true;
     }
-    if(USDTBalance.value.lt(buyAmount)){
+    if(ARBBalance.value.lt(buyAmount)){
       return ElNotification({
         title: 'Warning',
         message: '余额不足',
         type: 'warning',
       })
     }
-    if(USDTAllowance.value.lt(buyAmount)){
+    if(ARBAllowance.value.lt(buyAmount)){
       return ElNotification({
         title: 'Warning',
         message: '请授权',
         type: 'warning',
       })
     }
-  console.log(id)
   Axios.post('/dao/stake',{
     id,
     userAddress:address.value
   }).then(res=>{
     if(res.data.code === 200){
-      return contract.Dao.methods.stake(res.data.data).send({from:address.value})
+      contract.Dao.methods.stake(res.data.data).send({from:address.value}).then(res=>{
+          ElNotification({
+            title: 'Success',
+            message: '申购成功',
+            type: 'success',
+          })
+      }).finally(()=>{
+        if(type === 'vip'){
+          inSubscribe.value = false;
+        }else{
+          inSVIPSubscribe.value = false;
+        }
+      })
     }else{
+      if(type === 'vip'){
+        inSubscribe.value = false;
+      }else{
+        inSVIPSubscribe.value = false;
+      }
       ElNotification({
         title: 'Warning',
         message: res.data.msg,
         type: 'warning',
       })
     }
-  }).then(res=>{
-    console.log(res,'申购结果')
-  }).finally(()=>{
+  },()=>{
     if(type === 'vip'){
       inSubscribe.value = false;
     }else{
@@ -182,17 +198,17 @@ onMounted(()=>{
 <template>
   <div class="Stake">
     <div class="StakeTitle">DAO</div>
-    <div class="StakeSubTitle">Stake USDT and receive A while staking.</div>
+    <!-- <div class="StakeSubTitle">Stake USDT and receive A while staking.</div> -->
     <div class="StakeItem">
       <div class="totalNetwork">
         <div class="totalItem">
-          <div class="label">全网收益总量</div>
-          <div class="number">{{ totalRewardAmount }}</div>
+          <div class="label">Total of the whole network</div>
+          <div class="number">{{ NumSplic(totalRewardAmount,2,true) }}</div>
         </div>
         <div class="separate"></div>
         <div class="totalItem">
-          <div class="label">DAO 国库</div>
-          <div class="number">{{ daoAmount }}</div>
+          <div class="label">DAO Treasury</div>
+          <div class="number">{{ NumSplic(daoAmount,2,true) }}</div>
         </div>
       </div>
       <div class="Increase">
@@ -201,7 +217,7 @@ onMounted(()=>{
             <img src="../assets/Home/MenuIcon.png" alt="" />
           </div>
           <div>
-            <div class="name">OP</div>
+            <div class="name">Arbitrum</div>
             <div class="priceInfo">
               <span class="price">$ {{ arbPrice }}</span>
               <span class="pro">{{ arbRate }}%</span>
@@ -217,7 +233,7 @@ onMounted(()=>{
         <div class="subscribeTitle">Arbitrum Purchase</div>
         <div class="subscribeLabel">Subscription type</div>
         <div class="subscribeRow">
-          <div class="item flexCenter" :class="{Active:arbIndex === index}" v-for="(item,index) in arbsList" @click="arbIndex = index">{{item.buyAmount}}A</div>
+          <div class="item flexCenter" :class="{Active:arbIndex === index}" v-for="(item,index) in arbsList" @click="arbIndex = index">{{item.buyAmount}}ARB</div>
         </div>
         <div class="Submit flexCenter" v-if="ifApprove" @click="approve('vip')">
           <svg viewBox="25 25 50 50" v-if="inAllowance">
@@ -237,7 +253,7 @@ onMounted(()=>{
       <div class="subscribeTitle">SVIP Purchase</div>
       <div class="subscribeLabel">Subscription type</div>
       <div class="subscribeRow">
-        <div class="item flexCenter" :class="{Active:svipIndex === index}" v-for="(item,index) in svipList" @click="svipIndex = index">{{item.buyAmount}}A</div>
+        <div class="item flexCenter" :class="{Active:svipIndex === index}" v-for="(item,index) in svipList" @click="svipIndex = index">{{item.buyAmount}}ARB</div>
       </div>
       <div class="Submit flexCenter" v-if="ifSVIPApprove" @click="approve('svip')">
           <svg viewBox="25 25 50 50" v-if="inSVIPAllowance">
@@ -271,7 +287,7 @@ onMounted(()=>{
     @media (max-width: 1024px) {
       font-size: 3rem;
     }
-    @media (max-width: 425px) {
+    @media (max-width: 500px) {
       font-size: 5rem;
     }
   }
@@ -281,7 +297,7 @@ onMounted(()=>{
     color: #262626;
     text-align: center;
     margin-top: 8px;
-    @media (max-width: 425px) {
+    @media (max-width: 500px) {
       font-size: 12px;
     }
   }
@@ -290,20 +306,27 @@ onMounted(()=>{
     .totalNetwork {
       display: flex;
       justify-content: space-between;
+      // align-items: center;
       margin: 80px 67px 70px;
-      align-items: center;
       @media (max-width: 768px) {
         margin: 40px 33px 35px;
       }
-      @media (max-width:425px) {
+      @media (max-width:500px) {
         margin: 25px 20px 20px;
       }
       .totalItem {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content:space-between;
         .label {
           font-weight: 400;
           color: #e0f1ff;
           font-size: 20px;
           margin-bottom: 36px;
+          @media (max-width:500px) {
+            font-size: 16px;
+          }
         }
         .number {
           font-size: 40px;
@@ -315,7 +338,7 @@ onMounted(()=>{
           @media (max-width: 550px) {
             font-size: 24px;
           }
-          @media (max-width: 425px) {
+          @media (max-width: 500px) {
             font-size: 18px;
           }
         }
@@ -323,6 +346,8 @@ onMounted(()=>{
       .separate {
         border-left: 1px solid #fff;
         height: 66px;
+        margin: 0 50px;
+        align-self: center;
       }
     }
     display: flex;
@@ -342,7 +367,7 @@ onMounted(()=>{
       @media (max-width: 768px) {
         margin: 0 33px 62px;
       }
-      @media (max-width:425px) {
+      @media (max-width:500px) {
         margin: 0 20px 10px;
       }
       .Left {
@@ -352,17 +377,26 @@ onMounted(()=>{
           font-weight: 600;
           color: #ffffff;
           font-size: 20px;
+          @media (max-width:500px) {
+            font-size: 12px;
+          }
         }
         .price {
           font-weight: 400;
           color: #ffffff;
           font-size: 20px;
+          @media (max-width:500px) {
+            font-size: 12px;
+          }
         }
         .pro {
           color: #49de3d;
           font-weight: 600;
           font-size: 20px;
           margin-left: 25px;
+          @media (max-width:500px) {
+            font-size: 12px;
+          }
         }
       }
       .Right {
@@ -371,10 +405,12 @@ onMounted(()=>{
         font-size: 20px;
         display: flex;
         flex-direction: column;
+        @media (max-width:500px) {
+            font-size: 12px;
+          }
       }
       .Icon {
         width: 52px;
-        height: 52px;
         margin-right: 28px;
         border-radius: 50%;
         // background: #ff0000;
@@ -383,7 +419,6 @@ onMounted(()=>{
         }
         @media (max-width: 768px) {
           width: 35px;
-          height: 35px;
         }
       }
     }
@@ -400,7 +435,7 @@ onMounted(()=>{
     @media (max-width: 768px) {
       padding: 35px 40px 25px;
     }
-    @media (max-width: 425px) {
+    @media (max-width: 500px) {
       padding: 20px 20px 15px;
     }
     @media (max-width: 1024px) {
@@ -412,7 +447,7 @@ onMounted(()=>{
       color: #262626;
       font-size: 30px;
       text-align: center;
-      @media (max-width:425px) {
+      @media (max-width:500px) {
         font-size: 24px;
       }
     }
@@ -436,6 +471,9 @@ onMounted(()=>{
         margin-right: 15px;
         color: #00a0e9;
         font-size: 20px;
+        @media (max-width:500px) {
+            font-size: 12px;
+          }
       }
       .item:nth-last-child(1){
         margin-right: 0;

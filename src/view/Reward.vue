@@ -9,7 +9,7 @@ const route = useRoute()
 const type = ref('A')
 const RewardList = ref([])
 const typeMap = {
-    A:1,
+    Arbitrum:1,
     SVIP:2
 }
 const token = computed(() => {
@@ -40,7 +40,7 @@ onMounted(()=>{
         <img src="" alt="">
         <div>
             <div class="StakeTitle">{{ type }} Reward</div>
-            <div class="StakeSubTitle">Track your MATIC staking rewards with ARB</div>
+            <!-- <div class="StakeSubTitle">Track your MATIC staking rewards with ARB</div> -->
         </div>
         <div>
         </div>
@@ -81,7 +81,7 @@ onMounted(()=>{
         @media (max-width:1024px) {
             font-size: 3rem;
         }
-        @media (max-width:425px) {
+        @media (max-width:500px) {
             font-size: 5rem;
         }
     }
@@ -91,13 +91,14 @@ onMounted(()=>{
         color: #282828;
         text-align: center;
         margin: 8px 0 18px;
-        @media (max-width:425px) {
+        @media (max-width:500px) {
             font-size: 12px;
         }
     }
     .RewardBox{
         width: 750px;
         // margin: auto;
+        margin-top: 20px;
         background: #FFFFFF;
         height: 500px;
         box-shadow: 0px 3px 20px 0px rgba(0,0,0,0.1);

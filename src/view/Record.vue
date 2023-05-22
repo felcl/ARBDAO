@@ -29,10 +29,10 @@ function goPath(path){
     <div class="Record">
         <div class="RecordHeader">
             <img src="../assets/Home/back.png" @click="router.go(-1)" alt="">
-            <div>提现记录</div>
+            <div>Withdrawal records</div>
             <div></div>
         </div>
-        <div class="subTitle">Track your MATIC staking rewards with ARB</div>
+        <!-- <div class="subTitle">Track your MATIC staking rewards with ARB</div> -->
         <div class="RecordList">
             <div class="RecordItem" v-for="item in RecordList">
                 <div class="address">{{ AddrHandle(item.userAddress,6,6) }}</div>

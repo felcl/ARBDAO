@@ -166,7 +166,7 @@ onMounted(()=>{
     @media (max-width: 1024px) {
       width: 12rem;
     }
-    @media (max-width: 425px) {
+    @media (max-width: 768px) {
       display: none;
     }
   }
@@ -175,15 +175,14 @@ onMounted(()=>{
   }
   .MenuIcon {
     display: none;
-    @media (max-width: 425px) {
-      width: 6rem;
+    @media (max-width: 768px) {
       display: block;
     }
   }
   .menu {
     margin-left: 7.5rem;
     display: flex;
-    @media (max-width: 425px) {
+    @media (max-width: 768px) {
       // margin-left: 2.5rem;
       display: none;
     }
@@ -199,7 +198,7 @@ onMounted(()=>{
           width: 2rem;
           height: 2rem;
         }
-        @media (max-width: 425px) {
+        @media (max-width: 500px) {
           width: 4rem;
           height: 4rem;
         }
@@ -212,7 +211,7 @@ onMounted(()=>{
         @media (max-width: 768px) {
           font-size: 2rem;
         }
-        @media (max-width: 425px) {
+        @media (max-width: 500px) {
           font-size: 2.5rem;
         }
       }

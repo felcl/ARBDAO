@@ -6,7 +6,7 @@ import { ElNotification } from 'element-plus'
 import { useStore } from "vuex";
 import Axios from '../axios'
 import copy from "copy-to-clipboard";
-import { ref , computed , watch} from "vue";
+import { ref , computed , watch,onMounted} from "vue";
 import { contract } from '../web3'
 const router = useRouter()
 const store = useStore();
@@ -27,6 +27,7 @@ const inWithdraw = ref(false);
 const svipLevel = ref(0);
 const stakeTotalAmount = ref(0);
 const amount = ref(0);
+let dialogWidth = ref("550px")
 const goPath=(path)=>{
   router.push(path)
 }
@@ -36,6 +37,21 @@ const address = computed(() => {
 const token = computed(() => {
   return store.state.token;
 });
+onMounted(()=>{
+  setDialogWidth()
+  window.onresize = () => {
+    setDialogWidth()
+  }
+})
+let setDialogWidth = (()=>{
+  let val = document.body.clientWidth
+  const def = 550 // 默认宽度
+  if (val < def) {
+    dialogWidth.value = '98%'
+  } else {
+    dialogWidth.value = def + 'px'
+  }
+})
 watch(address,(address)=>{
  if(address){
   InviteUrl.value = window.location.origin+window.location.pathname+'#/?address=' + address
@@ -149,6 +165,13 @@ function bind(){
   })
 }
 function Withdraw(){
+    if(inWithdraw.value){
+        return yaElNotification({
+            title: 'Warning',
+            message: '请勿重复提交',
+            type: 'warning',
+        })
+    }
     if(!amount.value){
         return ElNotification({
           title: 'Warning',
@@ -157,9 +180,12 @@ function Withdraw(){
       })
     }
     inWithdraw.value = true
-    Axios.post('/dao/draw').then(res=>{
+    Axios.post('/dao/draw',{
+        amount:WithdrawAmount.value
+    }).then(res=>{
         console.log(res)
         if(res.data.code === 200){
+            WithdrawVisible.value =false
             contract.Dao.methods.drawToken(res.data.data).send({from:address.value}).then(res=>{
                 ElNotification({
                     title: 'Success',
@@ -172,9 +198,9 @@ function Withdraw(){
             })
         }else{
             ElNotification({
-                    title: 'Success',
+                    title: 'Warning',
                     message: '领取失败',
-                    type: 'success',
+                    type: 'warning',
                 })
             inWithdraw.value = false
         }
@@ -200,7 +226,7 @@ function changeNumPut(event) {
 <template>
   <div class="Rewares">
     <div class="StakeTitle">REWARDS</div>
-    <div class="StakeSubTitle">Track your MATIC staking rewards with ARB</div>
+    <!-- <div class="StakeSubTitle">Track your MATIC staking rewards with ARB</div> -->
     <div class="Tabs">
       <div
         class="tabItem flexCenter"
@@ -241,14 +267,15 @@ function changeNumPut(event) {
               @click="copyFun(InviteUrl)"
               alt=""
           /></span>
-          <div v-if="isBind === 0" class="Team flexCenter" @click="centerDialogVisible = true">邀请绑定 </div>
-          <div v-else class="Team flexCenter" @click="goPath('/Team')">团队 </div>
+          <div v-if="isBind === 0" class="Team flexCenter" @click="centerDialogVisible = true">Invite </div>
+          <div v-else class="Team flexCenter" @click="goPath('/Team')">Team </div>
         </div>
       </div>
       <div class="balance">
         <div class="balanceRow">
           <div class="balanceNum">
-            <span class="tokenName">A币</span>
+            <img src="../assets/Home/tokenIcon.png" alt="">
+            <span class="tokenName">Arbitrum </span>
             <span class="tokenNum">{{ amount ? amount : 0 }}</span>
           </div>
           <div class="Withdraw flexCenter" @click="WithdrawVisible =true">
@@ -269,8 +296,8 @@ function changeNumPut(event) {
     </div>
     <template v-if="tabVal === 'Reward'">
       <div class="LabelRow">
-        <span class="labelName">A币 Reward</span>
-        <span class="more" @click="goPath('/Reward?type=A')">more></span>
+        <span class="labelName">Arbitrum Reward</span>
+        <span class="more" @click="goPath('/Reward?type=Arbitrum')">more></span>
       </div>
       <div class="RewardBox">
         <template v-if="AIncome.length !==0">
@@ -297,12 +324,12 @@ function changeNumPut(event) {
     </template>
     <template v-else>
       <div class="LabelRow">
-        <span class="labelName">提现记录</span>
+        <span class="labelName">Withdrawal records</span>
         <span class="more" @click="goPath('/Record')">more></span>
       </div>
       <div class="RewardBox">
         <div class="total">
-          <div class="label">累计提现</div>
+          <div class="label">Accumulated withdrawal</div>
           <div class="totalNum">{{ WithdrawalTotal }}</div>
         </div>
         <template v-if="Withdrawallist.length !==0">
@@ -317,7 +344,7 @@ function changeNumPut(event) {
         <el-empty v-else description="description" />
       </div>
       <div class="LabelRow">
-        <span class="labelName">邀请记录</span>
+        <span class="labelName">Invitation Record</span>
         <span class="more" @click="goPath('/Team')">more></span>
       </div>
       <div class="RewardBox">
@@ -332,16 +359,17 @@ function changeNumPut(event) {
         <el-empty v-else description="description" />
       </div>
     </template>
-    <el-dialog v-model="centerDialogVisible" title="Invitation binding" width="30%" center :close-on-press-escape="false">
+    <el-dialog v-model="centerDialogVisible" title="Invitation binding" :width="dialogWidth" center :close-on-press-escape="false">
       <input class="InvitationInput" placeholder="Please enter the bound link" v-model="InvitationLink" type="text">
       <div class="enter" @click="bind">Confirm</div>
     </el-dialog>
-    <el-dialog v-model="WithdrawVisible" title="Invitation binding" width="30%" center :close-on-press-escape="false">
+    <el-dialog v-model="WithdrawVisible" title="Invitation binding" :width="dialogWidth" center :close-on-press-escape="false">
         <div class="balanceLabel">Balance：{{ amount }}</div>
         <div class="InvitationInput">
             <input placeholder="Please enter the withdrawal quantity" @input="changeNumPut" v-model="WithdrawAmount" type="text">
             <span @click="WithdrawAmount = amount">MAX</span>
         </div>
+        <div class="prompt">The minimum withdrawal amount is greater than or equal to 30 Arb</div>
       <div class="enter" @click="Withdraw">
         <svg viewBox="25 25 50 50" v-if="inWithdraw">
             <circle cx="50" cy="50" r="20"></circle>
@@ -377,6 +405,9 @@ function changeNumPut(event) {
         height: 100%;
         background: none;
     }
+}
+.prompt{
+    font-size: 12px;
 }
 .enter{
   width: 100%;
